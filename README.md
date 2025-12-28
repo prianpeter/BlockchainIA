@@ -106,6 +106,8 @@ N'hésitez pas à explorer l'interface web pour découvrir toutes les fonctionna
 
 ## Notes
 
+- Si vous rencontrez des erreurs du type « impossible de générer des transactions » ou des comportements inattendus, il est préférable de **relancer le projet après avoir vidé ou supprimé les fichiers de données** (`blockchain_data.json`, fichiers de base de données comme `bcdb`). Cela permet de repartir sur une blockchain propre et d'éviter les incohérences.
+
 - Il est nécessaire d'activer Ollama (serveur local de modèles IA) pour que toutes les fonctionnalités d'IA du projet fonctionnent correctement. Consultez la documentation d'Ollama pour l'installation et le démarrage.
 
 - Pour toute question ou contribution, ouvrez une issue ou une pull request.
