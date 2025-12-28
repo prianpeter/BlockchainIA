@@ -75,12 +75,6 @@ L'application lance un serveur web (par défaut sur http://127.0.0.1:5000). Ouvr
 		- "Génère un résumé des transactions du dernier bloc."
 	- L'IA répondra directement dans l'interface.
 
-- **Exemple de requête API (avancé)** :
-	- Vous pouvez interagir avec l'API REST (si activée) via curl ou Postman, par exemple :
-		```bash
-		curl http://127.0.0.1:5000/api/blocks
-		```
-
 N'hésitez pas à explorer l'interface web pour découvrir toutes les fonctionnalités disponibles.
 
 ## Utilisation avancée : minage à plusieurs (option 5 et 6)
