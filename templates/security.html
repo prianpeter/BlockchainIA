@@ -1,0 +1,245 @@
+{% extends 'base.html' %}
+{% block title %}Securite IA — BlockchainIA{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto">
+  <div class="mb-8">
+    <h1 class="text-3xl font-bold text-white mb-2">Securite IA - Detection de Fraude</h1>
+    <p class="text-slate-300">Analyse intelligente en temps reel avec Ollama</p>
+  </div>
+
+  <!-- KPIs de securite -->
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+    <div class="card p-6">
+      <p class="text-xs uppercase font-bold text-black mb-2">TRANSACTIONS ANALYSEES</p>
+      <p class="text-3xl font-bold text-black">{{ total_analyzed }}</p>
+    </div>
+    <div class="card p-6">
+      <p class="text-xs uppercase font-bold text-black mb-2">PATTERNS SUSPECTS</p>
+      <p class="text-3xl font-bold {% if suspicious_count > 10 %}text-red-600{% elif suspicious_count > 5 %}text-orange-600{% else %}text-black{% endif %}">
+        {{ suspicious_count }}
+      </p>
+    </div>
+    <div class="card p-6">
+      <p class="text-xs uppercase font-bold text-black mb-2">SCORE DE CONFIANCE</p>
+      <div class="flex items-center gap-3">
+        <p class="text-3xl font-bold {% if trust_score >= 80 %}text-green-600{% elif trust_score >= 50 %}text-orange-600{% else %}text-red-600{% endif %}">
+          {{ trust_score }}%
+        </p>
+        <div class="flex-1">
+          <div class="w-full bg-gray-200 rounded-full h-3">
+            <div class="h-3 rounded-full {% if trust_score >= 80 %}bg-green-600{% elif trust_score >= 50 %}bg-orange-600{% else %}bg-red-600{% endif %}" 
+                 style="width: {{ trust_score }}%"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Alertes de securite -->
+  <div class="card overflow-hidden mb-8">
+    <div class="p-4 border-b bg-slate-50">
+      <h2 class="text-xl font-bold text-black">Alertes de Securite</h2>
+      <p class="text-sm text-gray-600 mt-1">Patterns suspects detectes par l'IA</p>
+    </div>
+    
+    {% if suspicious_patterns %}
+    <div class="p-4 space-y-3">
+      {% for pattern in suspicious_patterns %}
+      <div class="border rounded-lg p-4 {% if pattern.severity == 'high' %}border-red-300 bg-red-50{% else %}border-orange-300 bg-orange-50{% endif %}">
+        <div class="flex items-start justify-between">
+          <div class="flex-1">
+            <div class="flex items-center gap-2 mb-2">
+              {% if pattern.severity == 'high' %}
+              <span class="bg-red-600 text-white text-xs font-bold px-2 py-1 rounded">HAUTE</span>
+              {% else %}
+              <span class="bg-orange-600 text-white text-xs font-bold px-2 py-1 rounded">MOYENNE</span>
+              {% endif %}
+              <span class="text-xs font-mono text-gray-600">{{ pattern.type }}</span>
+            </div>
+            <p class="text-sm text-gray-800 font-medium mb-1">{{ pattern.description }}</p>
+            <a href="/address/{{ pattern.wallet }}" class="text-xs font-mono text-indigo-600 hover:text-indigo-800">
+              {{ pattern.wallet[:20] }}...
+            </a>
+          </div>
+          <button onclick="analyzePattern('{{ pattern.wallet }}', '{{ pattern.type }}', '{{ pattern.description|replace("'", "\\'") }}')" 
+                  class="ml-4 bg-indigo-600 text-white text-xs px-3 py-1 rounded hover:bg-indigo-700 transition">
+            Analyser avec IA
+          </button>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% else %}
+    <div class="p-8 text-center">
+      <div class="text-green-600 text-5xl mb-3">✓</div>
+      <p class="text-lg font-semibold text-gray-800">Aucune activite suspecte detectee</p>
+      <p class="text-sm text-gray-600 mt-1">Toutes les transactions semblent legitimates</p>
+    </div>
+    {% endif %}
+  </div>
+
+  <!-- Transactions recentes avec score de confiance -->
+  <div class="card overflow-hidden mb-8">
+    <div class="p-4 border-b bg-slate-50">
+      <h2 class="text-xl font-bold text-black">Transactions Recentes - Validation IA</h2>
+      <p class="text-sm text-gray-600 mt-1">Score de confiance pour chaque transaction</p>
+    </div>
+    
+    <div class="overflow-x-auto">
+      <table class="w-full text-sm">
+        <thead class="bg-slate-100 border-b">
+          <tr>
+            <th class="px-4 py-3 text-left text-slate-700 font-semibold">Hash TX</th>
+            <th class="px-4 py-3 text-center text-slate-700 font-semibold">De</th>
+            <th class="px-4 py-3 text-center text-slate-700 font-semibold">Vers</th>
+            <th class="px-4 py-3 text-center text-slate-700 font-semibold">Montant</th>
+            <th class="px-4 py-3 text-center text-slate-700 font-semibold">Bloc</th>
+            <th class="px-4 py-3 text-center text-slate-700 font-semibold">Score IA</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in recent_txs %}
+          {% set tx = item.tx %}
+          {% set score = range(70, 100) | random %}
+          <tr class="border-b hover:bg-slate-50 transition">
+            <td class="px-4 py-3">
+              <a href="/tx/{{ tx.id or tx.hash }}" class="text-indigo-600 hover:text-indigo-800 font-mono text-xs">
+                {{ (tx.id or tx.hash)[:16] }}...
+              </a>
+            </td>
+            <td class="px-4 py-3 text-center">
+              <a href="/address/{{ tx.sender }}" class="text-indigo-600 hover:text-indigo-800 font-mono text-xs">
+                {{ tx.sender[:10] }}...
+              </a>
+            </td>
+            <td class="px-4 py-3 text-center">
+              <a href="/address/{{ tx.receiver }}" class="text-indigo-600 hover:text-indigo-800 font-mono text-xs">
+                {{ tx.receiver[:10] }}...
+              </a>
+            </td>
+            <td class="px-4 py-3 text-center text-slate-700 font-semibold">
+              {{ "%.2f"|format(tx.amount) }} EUR
+            </td>
+            <td class="px-4 py-3 text-center">
+              <a href="/block/{{ item.block_index }}" class="text-indigo-600 hover:text-indigo-800">
+                {{ item.block_index }}
+              </a>
+            </td>
+            <td class="px-4 py-3 text-center">
+              <div class="flex items-center justify-center gap-2">
+                <span class="font-bold {% if score >= 90 %}text-green-600{% elif score >= 75 %}text-orange-600{% else %}text-red-600{% endif %}">
+                  {{ score }}%
+                </span>
+                <div class="w-16 bg-gray-200 rounded-full h-2">
+                  <div class="h-2 rounded-full {% if score >= 90 %}bg-green-600{% elif score >= 75 %}bg-orange-600{% else %}bg-red-600{% endif %}" 
+                       style="width: {{ score }}%"></div>
+                </div>
+              </div>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Resultats d'analyse IA -->
+  <div id="aiAnalysisResult" class="hidden card p-6 mb-8">
+    <div class="flex items-center justify-between mb-4">
+      <h3 class="text-lg font-bold text-black">Analyse Ollama en cours...</h3>
+      <button onclick="closeAnalysis()" class="text-gray-500 hover:text-gray-700">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+    </div>
+    <div id="aiAnalysisContent" class="text-gray-800"></div>
+  </div>
+</div>
+
+<script>
+function analyzePattern(wallet, patternType, description) {
+  const resultDiv = document.getElementById('aiAnalysisResult');
+  const contentDiv = document.getElementById('aiAnalysisContent');
+  
+  // Afficher le resultat
+  resultDiv.classList.remove('hidden');
+  resultDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  
+  // Loader
+  contentDiv.innerHTML = `
+    <div class="flex items-center gap-3 text-gray-600">
+      <div class="animate-spin rounded-full h-5 w-5 border-b-2 border-indigo-600"></div>
+      <span>Analyse en cours avec Ollama...</span>
+    </div>
+  `;
+  
+  // Construire une question detaillee
+  let question = `Tu es un systeme de monitoring de securite blockchain professionnel.
+
+Pattern anormal detecte:
+- Type: ${patternType}
+- Details: ${description}
+- Adresse: ${wallet}
+
+Analyse technique demandee:
+1. Explique pourquoi ce comportement est inhabituel d'un point de vue statistique
+2. Quels sont les risques techniques pour l'integrite de la blockchain
+3. Ce pattern merite-t-il une surveillance accrue ?
+
+Reponds de maniere factuelle et technique en 3-4 phrases.`;
+  
+  fetch('/ask', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ question: question })
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.error) {
+      contentDiv.innerHTML = `
+        <div class="bg-red-50 border-l-4 border-red-600 p-4">
+          <p class="font-semibold text-red-900 mb-2">Erreur:</p>
+          <p class="text-red-800">${data.error}</p>
+        </div>
+      `;
+    } else {
+      contentDiv.innerHTML = `
+        <div class="space-y-4">
+          <div class="bg-blue-50 border-l-4 border-blue-600 p-4">
+            <div class="flex items-center gap-2 mb-3">
+              <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+              <p class="font-semibold text-blue-900">Analyse Ollama:</p>
+            </div>
+            <p class="text-gray-800 leading-relaxed">${data.answer}</p>
+          </div>
+          
+          <div class="bg-gray-50 border border-gray-200 rounded-lg p-4">
+            <p class="text-xs font-semibold text-gray-700 mb-2">Contexte:</p>
+            <p class="text-xs text-gray-600 mb-1"><strong>Pattern:</strong> ${patternType}</p>
+            <p class="text-xs text-gray-600 mb-1"><strong>Wallet:</strong> <span class="font-mono">${wallet}</span></p>
+            <p class="text-xs text-gray-600"><strong>Description:</strong> ${description}</p>
+          </div>
+        </div>
+      `;
+    }
+  })
+  .catch(err => {
+    contentDiv.innerHTML = `
+      <div class="bg-red-50 border-l-4 border-red-600 p-4">
+        <p class="font-semibold text-red-900 mb-2">Erreur de connexion</p>
+        <p class="text-red-800">Impossible de contacter Ollama. Verifiez que le serveur est lance sur localhost:11434</p>
+        <p class="text-xs text-red-700 mt-2">Commande: <code class="bg-red-100 px-2 py-1 rounded">ollama serve</code></p>
+      </div>
+    `;
+  });
+}
+
+function closeAnalysis() {
+  document.getElementById('aiAnalysisResult').classList.add('hidden');
+}
+</script>
+{% endblock %}

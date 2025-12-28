@@ -1,0 +1,157 @@
+{% extends 'base.html' %}
+{% block title %}Adresse — {{ address }}{% endblock %}
+
+{% block content %}
+<div class="flex items-start justify-between mb-4">
+    <div>
+        <h1 class="text-2xl font-bold text-white">{{ address }}</h1>
+        <p class="text-sm text-slate-300 mt-1">Adresse</p>
+    </div>
+    <div class="flex items-center space-x-2">
+        <a href="/export/transactions/{{ address }}.csv" class="text-sm bg-slate-100 px-3 py-1 rounded hover:bg-slate-200 text-slate-800">Export CSV</a>
+        <button onclick="navigator.clipboard.writeText('{{ address }}')" class="text-sm bg-indigo-600 text-white px-3 py-1 rounded">Copier</button>
+        <a href="/" class="text-sm px-3 py-1 rounded border border-slate-600/60 bg-slate-900/60 text-slate-100 hover:bg-slate-800">Retour</a>
+    </div>
+</div>
+
+<div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+    <div class="card p-4 md:col-span-2">
+        <p class="text-xs uppercase text-black font-bold">Solde actuel</p>
+        <p class="text-2xl font-bold mt-2 text-black">{{ "%.2f"|format(balance) }} €</p>
+        <div class="mt-3 text-sm text-slate-700">
+            <div>Transactions totales: <strong class="text-black">{{ tx_count }}</strong></div>
+            <div class="text-xs mt-2 text-slate-600">
+                Calcul: {{ "%.2f"|format(initial_balance) }} € (initial) + {{ "%.2f"|format(total_received) }} € (reçu) - {{ "%.2f"|format(total_sent) }} € (envoyé) = {{ "%.2f"|format(balance) }} €
+            </div>
+        </div>
+    </div>
+
+    <div class="card p-4">
+        <p class="text-xs uppercase text-black font-bold">Total reçu</p>
+        <p class="text-lg font-bold mt-2 text-black">{{ "%.2f"|format(total_received) }} €</p>
+        {% if miner_fees_received > 0 %}
+        <div class="text-xs text-slate-600 mt-1">Dont {{ "%.2f"|format(miner_fees_received) }} € de frais de minage</div>
+        {% endif %}
+    </div>
+
+    <div class="card p-4">
+        <p class="text-xs uppercase text-black font-bold">Total envoyé</p>
+        <p class="text-lg font-bold mt-2 text-black">{{ "%.2f"|format(total_sent) }} €</p>
+        {% if fees_paid > 0 %}
+        <div class="text-xs text-slate-600 mt-1">Dont {{ "%.2f"|format(fees_paid) }} € de frais</div>
+        {% endif %}
+    </div>
+</div>
+
+<div class="bg-white rounded border border-slate-200 p-3 mb-6">
+    <nav class="flex space-x-2 text-sm">
+        <a href="?tab=transactions" class="px-3 py-1 rounded {{ 'bg-indigo-600 text-white' if tab=='transactions' else 'bg-slate-100 text-slate-700' }}">Transactions</a>
+        <a href="?tab=internal" class="px-3 py-1 rounded {{ 'bg-indigo-600 text-white' if tab=='internal' else 'bg-slate-100 text-slate-700' }}">Internal Txns</a>
+        <a href="?tab=contract" class="px-3 py-1 rounded {{ 'bg-indigo-600 text-white' if tab=='contract' else 'bg-slate-100 text-slate-700' }}">Contract</a>
+    </nav>
+</div>
+
+{% if tab == 'transactions' %}
+<div class="card p-4 mb-6">
+    <div class="flex items-center justify-between mb-3">
+        <h2 class="font-bold text-black">Transactions</h2>
+        <div class="text-sm text-slate-700">Affichage : <strong class="text-black">{{ per_page }}</strong> / page — Total : <strong class="text-black">{{ total_txs }}</strong></div>
+    </div>
+
+    {% if txs and txs|length > 0 %}
+        <div class="overflow-x-auto">
+            <table class="min-w-full text-sm text-left table-auto w-full">
+                <thead class="bg-slate-50 text-slate-600">
+                    <tr>
+                        <th class="px-4 py-3">Txn Hash</th>
+                        <th class="px-4 py-3">Age</th>
+                        <th class="px-4 py-3">From</th>
+                        <th class="px-4 py-3">To</th>
+                        <th class="px-4 py-3">Value</th>
+                        <th class="px-4 py-3">Block</th>
+                        <th class="px-4 py-3">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in txs %}
+                    <tr class="border-t hover:bg-slate-50">
+                        <td class="px-4 py-3 font-mono break-all"><a href="/tx/{{ item.tx.id or item.tx.hash }}" class="text-indigo-600 font-bold">{{ item.tx.id or item.tx.hash }}</a></td>
+                        <td class="px-4 py-3 muted">{{ item.time }}</td>
+                        <td class="px-4 py-3 font-mono break-words"><a href="/address/{{ item.tx.sender }}" class="link-indigo">{{ item.tx.sender }}</a></td>
+                        <td class="px-4 py-3 font-mono break-words"><a href="/address/{{ item.tx.receiver }}" class="link-indigo">{{ item.tx.receiver }}</a></td>
+                        <td class="px-4 py-3 text-slate-600">{{ item.tx.amount }} €</td>
+                        <td class="px-4 py-3"><a href="/block/{{ item.block_index }}" class="text-slate-600">{{ item.block_index }}</a></td>
+                        <td class="px-4 py-3"><a href="/tx/{{ item.tx.id or item.tx.hash }}" class="text-sm text-slate-600 hover:text-indigo-600">View</a></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="mt-4 flex items-center justify-between">
+            <nav class="inline-flex rounded-md shadow-sm -space-x-px" role="navigation" aria-label="Pagination">
+                <a class="px-3 py-1 border bg-white text-slate-700 rounded-l" href="?tab=transactions&page=1&per_page={{ per_page }}">First</a>
+
+                {% if page and page > 1 %}
+                    <a class="px-3 py-1 border bg-white text-slate-700" href="?tab=transactions&page={{ page - 1 }}&per_page={{ per_page }}">Prev</a>
+                {% else %}
+                    <span class="px-3 py-1 border bg-slate-100 text-slate-400">Prev</span>
+                {% endif %}
+
+                {% for p in range(1, total_pages + 1) %}
+                    {% if p == page %}
+                        <span class="px-3 py-1 border bg-indigo-600 text-white">{{ p }}</span>
+                    {% else %}
+                        <a class="px-3 py-1 border bg-white text-slate-700" href="?tab=transactions&page={{ p }}&per_page={{ per_page }}">{{ p }}</a>
+                    {% endif %}
+                {% endfor %}
+
+                {% if page and page < total_pages %}
+                    <a class="px-3 py-1 border bg-white text-slate-700" href="?tab=transactions&page={{ page + 1 }}&per_page={{ per_page }}">Next</a>
+                {% else %}
+                    <span class="px-3 py-1 border bg-slate-100 text-slate-400">Next</span>
+                {% endif %}
+
+                <a class="px-3 py-1 border bg-white text-slate-700 rounded-r" href="?tab=transactions&page={{ total_pages }}&per_page={{ per_page }}">Last</a>
+            </nav>
+        </div>
+    {% else %}
+        <p class="text-sm muted">Aucune transaction trouvée pour cette adresse.</p>
+    {% endif %}
+</div>
+{% endif %}
+
+{% if tab == 'internal' %}
+<div class="card p-4 mb-6">
+    <h2 class="font-bold text-slate-700 mb-3">Internal Transactions</h2>
+    {% if internal and internal|length > 0 %}
+        <ul class="space-y-2 text-sm text-slate-700">
+            {% for it in internal %}
+                <li><strong>{{ it.time }}</strong> — {{ it.sender }} → {{ it.receiver }} — {{ it.amount }} € — {{ it.label }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p class="text-sm muted">Aucune transaction interne.</p>
+    {% endif %}
+</div>
+{% endif %}
+
+{% if tab == 'contract' %}
+<div class="card p-4 mb-6">
+    <h2 class="font-bold text-slate-700 mb-3">Contract</h2>
+    <div class="text-sm text-slate-700 mb-3">
+        <p>Frais payés aux mineurs : <strong>{{ "%.2f"|format(fees_paid) }} €</strong></p>
+        <p>Frais reçus en tant que mineur : <strong>{{ "%.2f"|format(miner_fees_received) }} €</strong></p>
+    </div>
+    {% if is_contract %}
+        <div class="text-sm text-slate-700">
+            <p>Contract found for this address.</p>
+            <pre class="bg-slate-100 text-slate-900 p-3 rounded mt-2 text-xs overflow-x-auto">{{ contract_data }}</pre>
+        </div>
+    {% else %}
+        <p class="text-sm muted">Cette adresse n'est pas un contrat.</p>
+    {% endif %}
+</div>
+{% endif %}
+
+{% endblock %}

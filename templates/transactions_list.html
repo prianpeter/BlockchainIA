@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% block title %}Transactions — BlockchainIA{% endblock %}
+
+{% block content %}
+<div class="flex items-center justify-between mb-6">
+    <div>
+        <h1 class="text-2xl font-bold text-white">Transactions</h1>
+        <p class="text-sm text-slate-300">Historique des transactions confirmées</p>
+    </div>
+    <div class="flex items-center space-x-3">
+        <a href="/export/transactions.csv" class="text-sm bg-slate-100 px-3 py-1 rounded hover:bg-slate-200 text-slate-800">Download CSV</a>
+        <div class="text-sm text-slate-200">Total txns : <strong class="text-white">{{ total }}</strong></div>
+    </div>
+</div>
+
+<div class="card overflow-x-auto">
+    <table class="min-w-full text-sm text-left table-auto w-full">
+        <thead class="bg-slate-50 text-slate-600">
+            <tr>
+                <th class="px-4 py-3">Txn Hash</th>
+                <th class="px-4 py-3">Age</th>
+                <th class="px-4 py-3">From</th>
+                <th class="px-4 py-3">To</th>
+                <th class="px-4 py-3">Amount</th>
+                <th class="px-4 py-3">Block</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for t in transactions %}
+            <tr class="border-t hover:bg-slate-50">
+                <td class="px-4 py-3 font-mono"><a href="/tx/{{ t.txid }}" class="text-indigo-600 font-semibold">{{ t.txid }}</a></td>
+                <td class="px-4 py-3 muted">{{ t.age }}</td>
+                <td class="px-4 py-3"><a href="/address/{{ t.from }}" class="link-indigo">{{ t.from }}</a></td>
+                <td class="px-4 py-3"><a href="/address/{{ t.to }}" class="link-indigo">{{ t.to }}</a></td>
+                <td class="px-4 py-3 text-slate-700">{{ "%.2f"|format(t.amount) }} €</td>
+                <td class="px-4 py-3"><a href="/block/{{ t.block_index }}" class="text-indigo-600">{{ t.block_index }}</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div class="mt-4 flex items-center justify-between">
+    <div class="text-sm text-slate-200">Affichage : <strong class="text-white">{{ per_page }}</strong> / page — Total : <strong class="text-white">{{ total }}</strong></div>
+    <div class="space-x-2">
+        {% if page > 1 %}
+        <a href="/transactions?page={{ page-1 }}&per_page={{ per_page }}" class="text-indigo-600">Previous</a>
+        {% endif %}
+        {% for p in range(1, total_pages + 1) %}
+            {% if p == page %}
+                <span class="px-3 py-1 border bg-indigo-600 text-white">{{ p }}</span>
+            {% else %}
+                <a class="px-3 py-1 border bg-white text-slate-700" href="/transactions?page={{ p }}&per_page={{ per_page }}">{{ p }}</a>
+            {% endif %}
+        {% endfor %}
+        {% if page < total_pages %}
+        <a href="/transactions?page={{ page+1 }}&per_page={{ per_page }}" class="text-indigo-600">Next</a>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}

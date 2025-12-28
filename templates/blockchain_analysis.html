@@ -1,0 +1,197 @@
+{% extends 'base.html' %}
+{% block title %}Analyse IA - Blockchain{% endblock %}
+
+{% block content %}
+<div class="mb-6">
+    <h1 class="text-3xl font-bold text-white mb-2">📊 Analyse Complète de la Blockchain</h1>
+    <p class="text-slate-300">Intelligence artificielle appliquée à l'analyse de la blockchain</p>
+</div>
+
+<!-- KPIs Globaux -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+    <div class="card p-4">
+        <p class="text-xs uppercase text-black font-bold">Total Blocs</p>
+        <p class="text-2xl font-bold mt-2 text-black">{{ total_blocks }}</p>
+    </div>
+    <div class="card p-4">
+        <p class="text-xs uppercase text-black font-bold">Total Portefeuilles</p>
+        <p class="text-2xl font-bold mt-2 text-black">{{ total_wallets }}</p>
+    </div>
+    <div class="card p-4">
+        <p class="text-xs uppercase text-black font-bold">Total Transactions</p>
+        <p class="text-2xl font-bold mt-2 text-black">{{ total_txs }}</p>
+    </div>
+</div>
+
+<!-- Section d'analyse IA -->
+<div class="card p-6 mb-6">
+    <h2 class="text-xl font-bold text-black mb-4">🤖 Analyses Intelligentes</h2>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Analyse 1: Utilisateurs les plus actifs -->
+        <div class="bg-slate-50 rounded-lg p-4">
+            <h3 class="font-bold text-black mb-3 flex items-center">
+                <span class="bg-indigo-100 text-indigo-600 rounded-full w-8 h-8 flex items-center justify-center mr-2">1</span>
+                Utilisateurs les plus actifs
+            </h3>
+            <div class="space-y-2">
+                {% for user, count in top_users[:3] %}
+                <div class="flex justify-between items-center">
+                    <a href="/address/{{ user }}" class="text-indigo-600 font-mono text-sm truncate max-w-xs">{{ user }}</a>
+                    <span class="bg-indigo-600 text-white px-2 py-1 rounded text-xs">{{ count }} interactions</span>
+                </div>
+                {% endfor %}
+            </div>
+            <button onclick="analyzeActivity()" class="mt-4 w-full bg-indigo-600 text-white py-2 rounded hover:bg-indigo-700 text-sm">
+                <i class="fas fa-robot mr-2"></i>Analyser avec IA
+            </button>
+        </div>
+
+        <!-- Analyse 2: Concentration de richesse -->
+        <div class="bg-slate-50 rounded-lg p-4">
+            <h3 class="font-bold text-black mb-3 flex items-center">
+                <span class="bg-orange-100 text-orange-600 rounded-full w-8 h-8 flex items-center justify-center mr-2">2</span>
+                Concentration de richesse
+            </h3>
+            <div class="mb-3">
+                <div class="text-3xl font-bold text-orange-600 mb-1">{{ "%.1f"|format(concentration_percentage) }}%</div>
+                <p class="text-sm text-slate-600">des richesses détenues par les 3 plus gros portefeuilles</p>
+            </div>
+            <div class="space-y-2">
+                {% for wallet, balance in sorted_wallets[:3] %}
+                <div class="flex justify-between items-center text-sm">
+                    <a href="/address/{{ wallet }}" class="text-orange-600 font-mono truncate max-w-xs">{{ wallet }}</a>
+                    <span class="font-bold text-black">{{ "%.2f"|format(balance) }} €</span>
+                </div>
+                {% endfor %}
+            </div>
+            <button onclick="analyzeWealth()" class="mt-4 w-full bg-orange-600 text-white py-2 rounded hover:bg-orange-700 text-sm">
+                <i class="fas fa-robot mr-2"></i>Analyser avec IA
+            </button>
+        </div>
+
+        <!-- Analyse 3: Performance des mineurs -->
+        <div class="bg-slate-50 rounded-lg p-4">
+            <h3 class="font-bold text-black mb-3 flex items-center">
+                <span class="bg-green-100 text-green-600 rounded-full w-8 h-8 flex items-center justify-center mr-2">3</span>
+                Top Mineurs
+            </h3>
+            <div class="space-y-2">
+                {% for miner, stats in top_miners %}
+                <div class="flex justify-between items-center">
+                    <a href="/address/{{ miner }}" class="text-green-600 font-mono text-sm truncate max-w-xs">{{ miner }}</a>
+                    <div class="text-right">
+                        <div class="text-xs text-slate-600">{{ stats.blocks }} blocs</div>
+                        <div class="text-xs font-bold text-black">{{ "%.2f"|format(stats.rewards) }} €</div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <button onclick="analyzeMiners()" class="mt-4 w-full bg-green-600 text-white py-2 rounded hover:bg-green-700 text-sm">
+                <i class="fas fa-robot mr-2"></i>Analyser avec IA
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Barre de recherche personnalisée -->
+<div class="card p-6 mb-6">
+    <h2 class="text-xl font-bold text-black mb-4">💬 Posez vos questions sur votre blockchain</h2>
+    <p class="text-sm text-slate-600 mb-4">L'IA analysera les données de votre blockchain pour répondre à vos questions spécifiques.</p>
+    <div class="flex gap-2">
+        <input type="text" id="customQuestion" placeholder="Ex: Quel utilisateur a le plus de transactions ? Qui sont les mineurs les plus rentables ?" 
+               class="flex-1 px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-600 text-black" 
+               onkeypress="if(event.key==='Enter') askCustomQuestion()" />
+        <button onclick="askCustomQuestion()" class="bg-indigo-600 text-white px-6 py-3 rounded-lg hover:bg-indigo-700 font-semibold">
+            <i class="fas fa-paper-plane mr-2"></i>Demander
+        </button>
+    </div>
+</div>
+
+<!-- Résultat d'analyse IA -->
+<div id="aiResult" class="card p-6 hidden">
+    <h2 class="text-xl font-bold text-black mb-4">🧠 Résultat de l'analyse IA</h2>
+    <div id="aiResultContent" class="prose max-w-none">
+        <!-- Contenu dynamique -->
+    </div>
+</div>
+
+<script>
+// Configuration
+const MODEL = 'llama3.2';
+
+async function analyzeWithBackend(question) {
+    const resultDiv = document.getElementById('aiResult');
+    const contentDiv = document.getElementById('aiResultContent');
+    
+    resultDiv.classList.remove('hidden');
+    contentDiv.innerHTML = '<div class="flex items-center text-slate-600"><i class="fas fa-spinner fa-spin mr-2"></i>L\'IA analyse les données...</div>';
+    
+    // Scroll vers le résultat
+    resultDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    
+    try {
+        const response = await fetch('/analyze-blockchain', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ question: question })
+        });
+        
+        const data = await response.json();
+        
+        if (data.error) {
+            contentDiv.innerHTML = `
+                <div class="bg-red-50 rounded-lg p-4 border-l-4 border-red-600">
+                    <div class="text-sm text-red-600 font-bold mb-2">❌ Erreur</div>
+                    <div class="text-black">${data.error}</div>
+                </div>
+            `;
+        } else {
+            const answer = data.answer || 'Aucune réponse.';
+            contentDiv.innerHTML = `
+                <div class="bg-slate-50 rounded-lg p-4 border-l-4 border-indigo-600">
+                    <div class="text-sm text-slate-600 mb-2">🤖 Analyse générée par ${MODEL}</div>
+                    <div class="text-black whitespace-pre-wrap">${answer}</div>
+                </div>
+            `;
+        }
+    } catch (error) {
+        contentDiv.innerHTML = `
+            <div class="bg-red-50 rounded-lg p-4 border-l-4 border-red-600">
+                <div class="text-sm text-red-600 font-bold mb-2">❌ Erreur</div>
+                <div class="text-black">Impossible de contacter le serveur. Assurez-vous qu'Ollama est démarré avec le modèle llama3.2.</div>
+            </div>
+        `;
+    }
+}
+
+function analyzeActivity() {
+    const question = "Analyse les utilisateurs les plus actifs de la blockchain. Que révèle ce niveau d'activité ? Y a-t-il des signes de centralisation ou de décentralisation ?";
+    analyzeWithBackend(question);
+}
+
+function analyzeWealth() {
+    const question = "Analyse la concentration de richesse dans la blockchain. Est-ce préoccupant pour la décentralisation du réseau ? Quels sont les risques ?";
+    analyzeWithBackend(question);
+}
+
+function analyzeMiners() {
+    const question = "Analyse la performance et la répartition des mineurs. Y a-t-il un risque de centralisation du pouvoir de minage (attaque 51%) ?";
+    analyzeWithBackend(question);
+}
+
+function askCustomQuestion() {
+    const question = document.getElementById('customQuestion').value.trim();
+    
+    if (!question) {
+        alert('Veuillez poser une question.');
+        return;
+    }
+    
+    analyzeWithBackend(question);
+    
+    // Vider la barre de recherche
+    document.getElementById('customQuestion').value = '';
+}
+</script>
+{% endblock %}

@@ -1,0 +1,1830 @@
+\documentclass[a4paper, 12pt, twoside]{article}
+\usepackage[utf8]{inputenc}     % LaTeX, comprend les accents !
+\usepackage[T1]{fontenc}
+\usepackage[francais]{babel}
+\usepackage{lmodern}
+\usepackage{ae,aecompl}
+\usepackage[top=2.5cm, bottom=2cm, 
+            left=3cm, right=2.5cm, 
+            headheight=15pt]{geometry}
+\usepackage{graphicx}
+\usepackage{eso-pic}    % Nécessaire pour mettre des images en arrière plan
+\usepackage{array}
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{float}
+
+
+
+\makeatletter
+\def\@ecole{école}
+\newcommand{\ecole}[1]{\def\@ecole{#1}}
+
+\def\@entreprise{Nom de l'entreprise}
+\newcommand{\entreprise}[1]{\def\@entreprise{#1}}
+
+\def\@datedebut{\today}
+\newcommand{\datedebut}[1]{\def\@datedebut{#1}}
+
+\def\@datefin{\today}
+\newcommand{\datefin}[1]{\def\@datefin{#1}}
+
+\def\@specialite{Spécialité}
+\newcommand{\specialite}[1]{\def\@specialite{#1}}
+
+\def\@ED{\'{E}cole Doctorale}
+\newcommand{\ED}[1]{\def\@ED{#1}}
+
+\def\@doctorat{Doctorat}
+\newcommand{\doctorat}[1]{\def\@doctorat{#1}}
+
+\def\@adresse{Adresse}
+\newcommand{\adresse}[1]{\def\@adresse{#1}}
+
+\def\@directeur{directeur}
+\newcommand{\directeur}[1]{\def\@directeur{#1}}
+
+\def\@encadrant{encadrant}
+\newcommand{\encadrant}[1]{\def\@encadrant{#1}}
+
+\def\@membrea{Membre}
+\newcommand{\membrea}[1]{\def\@membrea{#1\\}}
+
+\def\@membreb{Membre}
+\newcommand{\membreb}[1]{\def\@membreb{#1\\}}
+
+\def\@membrec{Membre}
+\newcommand{\membrec}[1]{\def\@membrec{#1\\}}
+
+\def\@membred{Membre}
+\newcommand{\membred}[1]{\def\@membred{#1\\}}
+
+\def\@membree{Membre}
+\newcommand{\membree}[1]{\def\@membree{#1\\}}
+
+\def\@juryb{}{}{}
+\newcommand{\juryb}[3]{\def\@juryb{#1, & #2 & #3\\}}
+
+\def\@juryc{}{}{}
+\newcommand{\juryc}[3]{\def\@juryc{#1, & #2 & #3\\}}
+
+\def\@juryd{}{}{}
+\newcommand{\juryd}[3]{\def\@juryd{#1, & #2 & #3\\}}
+
+\def\@jurye{}{}{}
+\newcommand{\jurye}[3]{\def\@jurye{#1, & #2 & #3\\}}
+
+\def\@juryf{}{}{}
+\newcommand{\juryf}[3]{\def\@juryf{#1, & #2 & #3\\}}
+
+\def\@juryg{}{}{}
+\newcommand{\juryg}[3]{\def\@juryg{#1, & #2 & #3\\}}
+
+\def\@juryh{}{}{}
+\newcommand{\juryh}[3]{\def\@juryh{#1, & #2 & #3\\}}
+
+\def\@juryi{}{}{}
+\newcommand{\juryi}[3]{\def\@juryi{#1, & #2 & #3\\}}
+
+\usepackage{hyperref}
+\hypersetup{colorlinks=true, linkcolor=black, urlcolor=black}
+
+\def\@github{}
+\newcommand{\github}[1]{\def\@github{\\ \vspace{0.3cm} {\bfseries Lien GitHub: \href{#1}{\texttt{#1}}}}}
+
+\newcommand\BackgroundPic{%
+    \put(0,0){%
+        \parbox[b][\paperheight]{\paperwidth}{%
+            \includegraphics[height=0.45\paperheight]{imagepdg/Bordure.png}%
+            \vfill
+        }
+    }
+}
+
+\newcommand\EtiquetteThese{%
+    \put(0,0){%
+        \parbox[t][\paperheight]{\paperwidth}{%
+            \hfill
+            \begin{minipage}[b]{2em}
+                \includegraphics[width=4.0\textwidth]{imagepdg/logo_nanterre.png}\\                    
+                \vspace{0.2cm}
+            \end{minipage}
+        }
+    }
+}
+
+\newcommand{\pagedegarde}{
+\newgeometry{top=2.5cm, bottom=1cm, left=2cm, right=1cm}
+\AddToShipoutPicture*{\BackgroundPic}
+  \begin{titlepage}
+  \centering
+      \includegraphics[width=0.6\textwidth]{imagepdg/logo_Paris_Nanterre_couleur_RVB.png}
+      \hfill
+      $\ $\\
+      \vspace{1cm}
+      {\Large Licence MIASHS deuxième année option MIAGE}\\
+      \vspace{1cm}
+      {\huge {\bfseries Rapport de projet informatique S3}\\
+      \vspace{0.5cm}}
+      $\ $\\
+      \vspace{1cm}
+      {\huge\color[rgb]{0,0,1} \bfseries{\@title}}\\
+      \vspace{0.5cm}
+      {\bfseries Projet réalisé du \@datedebut\ au \@datefin}
+      \@github % <-- Insertion du lien GitHub ici
+      \vspace{1.5cm}
+      $\ $\\
+      \vspace{0.5cm}
+      $\ $\\
+      \vfill
+      \begin{tabular}{>{\bfseries}lll}
+          \large Membres du groupe\\
+          \vspace{0.15cm}\\
+          \@membrea
+          \@membreb      
+      \end{tabular}
+      \vfill
+  \end{titlepage}
+\restoregeometry  
+}
+\makeatother
+
+\github{https://github.com/prianos/BlockchainIA}
+\title{BlockchainIA: Blockchain Décentralisée avec Minage PoW et IA}
+\datedebut{28 Octobre 2025}
+\datefin{29 Décembre 2025}
+
+\membrea{PETER CANISIOUS LINTON Prian 44005196}
+\membreb{JUDEKEN Anistanroy 44004438}
+
+\begin{document}
+
+\pagedegarde
+
+\section*{Remerciements}
+
+\begin{itemize}
+\item Nous tenons à remercier chaleureusement nos professeurs d'informatique, M. Delbot et Mme ALAYA, pour leur accompagnement tout au long de ce projet. Leurs conseils éclairés et la manière dont ils nous ont guidés ont été d'une aide précieuse, tant pour la conception que pour la résolution des difficultés rencontrées.
+
+\item Nous souhaitons également reconnaître l'apport des outils d'intelligence artificielle qui nous ont apporté un soutien pertinent lors de certaines phases techniques.
+\end{itemize}
+
+
+\newpage
+
+\tableofcontents
+\newpage
+
+\section{Introduction}
+
+\subsection{Qu'est-ce qu'une blockchain ?}
+
+Une blockchain est une technologie de stockage d'informations qui a révolutionné notre façon de concevoir les systèmes numériques depuis l'apparition du Bitcoin en 2008. Il s'agit d'un registre numérique distribué où les données sont répliquées sur des milliers d'ordinateurs à travers le monde.
+
+La particularité de cette technologie, c'est qu'elle fonctionne sans autorité centrale. Contrairement aux systèmes traditionnels où une banque, une entreprise ou un gouvernement contrôle les données, la blockchain repose sur un réseau décentralisé où chaque participant possède une copie identique du registre. Cette architecture garantit la transparence et l'immutabilité des données.
+
+\subsection{Comment ça fonctionne ?}
+
+Les données sont organisées en "blocs". Chaque bloc regroupe un ensemble de transactions avec leurs détails : qui envoie quoi, à qui, et à quel moment. Une fois validé, un bloc est ajouté à la chaîne existante et ne peut plus être modifié.
+
+Ce qui rend le système particulièrement sécurisé, c'est que chaque bloc contient :
+\begin{itemize}
+    \item Les transactions du bloc
+    \item Un horodatage précis
+    \item Une empreinte numérique unique (hash), comme une signature cryptographique
+    \item L'empreinte du bloc précédent, créant ainsi une chaîne ininterrompue
+\end{itemize}
+
+Pour modifier une transaction passée, il faudrait recalculer tous les blocs suivants sur la majorité du réseau, ce qui demande une puissance de calcul colossale et est donc pratiquement impossible.
+
+\subsection{Le rôle des mineurs}
+
+Les "mineurs" sont des participants qui mettent leur puissance de calcul à contribution pour valider et ajouter de nouveaux blocs. Ils doivent résoudre des problèmes mathématiques complexes (c'est le Proof of Work), et le premier à trouver la solution peut ajouter son bloc à la chaîne.
+
+En échange de ce travail de validation, les mineurs reçoivent une récompense en cryptomonnaie. C'est ce mécanisme qui sécurise l'ensemble du réseau sans nécessiter d'autorité centrale, tout en incitant les participants à contribuer honnêtement au système.
+
+\subsection{Notre projet : BlockchainIA}
+
+Dans le cadre de ce projet, nous avons développé notre propre blockchain complète et fonctionnelle. Notre système intègre les mécanismes fondamentaux de cette technologie :
+
+\begin{itemize}
+    \item \textbf{Proof of Work (PoW)} : Un algorithme de consensus pour valider les blocs de manière sécurisée
+    \item \textbf{Transactions sécurisées} : Transferts entre portefeuilles avec signatures cryptographiques
+    \item \textbf{Smart Contracts} : Contrats automatiques gérant les frais et récompenses de minage
+    \item \textbf{Minage optimisé en C++} : Un module compilé pour maximiser les performances
+    \item \textbf{Intelligence Artificielle} : Analyse automatique de la blockchain avec Ollama 
+    \item \textbf{Interface web} : Visualisation en temps réel de la blockchain
+\end{itemize}
+
+\section{Environnement de travail}
+Pour ce projet, nous avons utilisé :
+\begin{itemize}
+    \item Python 3.11 comme langage principal
+    \item Visual Studio Code comme environnement de développement intégré
+    \item C++ pour l'optimisation du minage 
+    \item Visual Studio Build Tools pour compiler les modules C++
+    \item Environnement virtuel Python créé avec \texttt{python -m venv venv}
+    \item Bibliothèques installées via \texttt{pip install -r requirements.txt} 
+    \item Ollama pour l'analyse IA de la blockchain
+\end{itemize}
+
+L'exécution du projet nécessite :
+\begin{enumerate}
+    \item Activer l'environnement virtuel (\texttt{venv\textbackslash Scripts\textbackslash activate} sur Windows)
+    \item Compiler le module C++ : \texttt{python setup.py build\_ext --inplace}
+    \item Lancer le script principal \texttt{main.py}
+    \item Accéder à l'interface via \texttt{http://localhost:5003}
+\end{enumerate}
+
+\section{Description du projet et objectifs}
+\subsection{Fichiers principaux}
+Le projet vise à développer une blockchain décentralisée complète avec un système de Proof of Work optimisé, des transactions sécurisées, des smart contracts, et une analyse IA avancée. La structure du projet comprend plusieurs modules principaux :
+
+\begin{itemize}
+    \item \texttt{main.py} : Point d'entrée de l'application (menu terminal et serveur Flask)
+    \item \texttt{blockchain/blockchain.py} : Gestion de la chaîne de blocs, consensus et portefeuilles
+    \item \texttt{blockchain/block.py} : Classe Block avec calcul de hash et minage
+    \item \texttt{blockchain/transaction.py} : Système de transactions avec signatures
+    \item \texttt{blockchain/fees\_contract.py} : Smart contracts pour frais de minage
+    \item \texttt{core/mining.py} : Algorithmes de minage automatique et IA
+    \item \texttt{core/routes.py} : Interface web Flask (API REST et pages HTML)
+    \item \texttt{mine\_module.cpp} : Module C++ pour optimisation du minage PoW
+\end{itemize}
+
+\begin{itemize}
+    \item \texttt{blockchain\_data.json} : Sauvegarde persistante de la blockchain
+    \item \texttt{blockchain.db} : Base de données SQLite pour analyse
+    \item \texttt{templates/} : Pages HTML (blocks, transactions, miners, analyse IA)
+\end{itemize}
+
+\newpage
+
+\subsection{Structure du projet}
+Le projet est organisé comme suit :
+\begin{verbatim}
+blockchainIA/
+ main.py              # Point d'entrée principal
+ mine_pow.cpp         # Code source C++ du module de minage
+ mine_module.pyi      # Interface Python pour typage
+ mine_module.cp311-win_amd64.pyd # Module C++ compilé
+ setup.py             # Script de compilation C++
+ requirements.txt     # Dépendances Python
+ blockchain_data.json # Sauvegarde de la blockchain
+ blockchain.db        # Base de données SQLite
+ ai/                  # Module IA
+  | __init__.py
+  | generator.py     # Génération transactions avec Ollama
+ blockchain/          # Module blockchain
+  | __init__.py
+  | blockchain.py    # Classe Blockchain principale
+  | block.py         # Classe Block
+  | transaction.py   # Classe Transaction
+  | fees_contract.py # Smart Contracts
+ core/                # Logique métier
+  | __init__.py
+  | mining.py        # Algorithmes de minage
+  | routes.py        # Routes Flask (API + pages)
+  | utils.py         # Fonctions utilitaires
+  | db.py            # Gestion base SQLite
+ templates/           # Pages HTML
+  | base.html        # Template de base (parent)
+  | home.html        # Tableau de bord
+  | blocks_list.html # Liste des blocs
+  | block_detail.html # Détail d'un bloc
+  | transactions_list.html # Liste transactions
+  | transaction_detail.html # Détail transaction
+  | miners_simple.html # Statistiques mineurs
+  | adresse.html     # Historique portefeuille
+  | audit.html       # Audit de portefeuille
+  | blockchain_analysis.html # Analyse IA
+  | security.html    # Sécurité IA
+  | download.html    # Téléchargement projet
+  | error.html       # Page d'erreur
+ venv/                # Environnement virtuel Python
+\end{verbatim}
+
+\newpage
+
+\section{Bibliothèques, Outils et technologies}
+
+Voici les outils que nous avons utilisés, expliqués simplement :
+
+\begin{itemize}
+    \item \textbf{Flask} : Crée les pages web que vous voyez dans votre navigateur
+    
+    \item \textbf{hashlib} : Crée les signatures numériques (empreintes) qui protègent chaque bloc
+    
+    \item \textbf{C++} : Un langage très rapide qui accélère le minage de 10 à 50 fois
+    
+    \item \textbf{time, datetime} : Enregistre l'heure exacte de chaque transaction
+    
+    \item \textbf{json} : Sauvegarde la blockchain dans des fichiers lisibles
+    
+    \item \textbf{os} : Interagit avec votre ordinateur (fichiers, dossiers)
+    
+    \item \textbf{random} : Génère des adresses de portefeuilles aléatoires
+    
+    \item \textbf{signal} : Permet d'arrêter proprement le programme avec CTRL+C
+    
+    \item \textbf{io} : Crée des fichiers PDF et CSV pour les exports
+    
+    \item \textbf{Ollama (Llama 3.2)} : L'intelligence artificielle qui analyse la blockchain et détecte les problèmes
+    
+    \item \textbf{threading, Queue} : Fait tourner plusieurs tâches en même temps (minage, sauvegarde, IA)
+    
+    \item \textbf{SQLAlchemy} : Gère la base de données pour les analyses avancées
+    
+    \item \textbf{requests} : Permet aux ordinateurs de se parler entre eux sur le réseau
+    
+    \item \textbf{pybind11} : Fait le lien entre le code Python et le code C++
+    
+    \item \textbf{reportlab} : Crée des rapports PDF pour les audits de portefeuilles
+\end{itemize}
+
+\newpage
+
+\section{Travail réalisé}
+
+Le travail s'est divisé en deux contributions majeures :\\
+
+
+\textbf{Prian : Blockchain Core et Optimisation C++}
+
+\begin{itemize}
+    \item \textbf{Architecture de base :} J'ai développé les classes \texttt{Block}, \texttt{Transaction}, et \texttt{Blockchain} avec calcul de hash SHA-256 (empreinte cryptographique unique) et validation de chaîne.
+    
+    \item \textbf{Système de portefeuilles :} J'ai créé un système de gestion des adresses (format 0x...), avec validation automatique des soldes et historique complet par portefeuille.
+    
+    \item \textbf{Module C++ :} J'ai optimisé le Proof of Work (système de validation des blocs) avec pybind11, multipliant les performances par 10 à 50.
+    
+    \item \textbf{Minage automatique :} J'ai implémenté un thread en arrière-plan avec Queue pour gérer les transactions, générer des données IA et diffuser les blocs sur le réseau.\\
+\end{itemize}
+
+
+\textbf{Anistanroy : Smart Contracts, Interface Web et IA}
+
+\begin{itemize}
+    \item \textbf{Smart Contracts :} J'ai conçu un système modulaire avec \texttt{mining\_fee\_contract} pour distribuer automatiquement les récompenses aux mineurs (ceux qui valident les blocs).
+    
+    \item \textbf{Persistance et consensus :} J'ai mis en place la sauvegarde automatique en JSON et l'algorithme "chaîne la plus longue" pour synchroniser les différents nœuds du réseau.
+    
+    \item \textbf{Interface Flask :} J'ai développé plus de 15 pages web avec dashboard, exploration détaillée de blocs/transactions et exports de données CSV.
+    
+    \item \textbf{IA Ollama :} J'ai intégré l'intelligence artificielle pour l'analyse conversationnelle, la génération automatique de transactions et la détection d'anomalies de sécurité.\\
+\end{itemize}
+
+
+\subsection{Contribution Individuelle}
+
+
+\textbf{Prian : Blockchain Core et Optimisation C++}\\
+
+
+\textbf{Étape 1 : Blockchain de Base}
+
+Requête : \textit{"Crée moi une blockchain simple en Python avec des blocs et des transactions"}
+
+Réponse : voir annexe \ref{anex1}\\
+
+J'ai commencé par développer les fondations de la blockchain. L'IA m'a généré une structure minimaliste avec les fonctions essentielles : \texttt{calculate\_hash()} pour créer l'empreinte SHA-256 de chaque bloc, \texttt{add\_block()} pour ajouter un bloc à la chaîne, et \texttt{is\_valid\_chain()} pour vérifier l'intégrité. Chaque bloc stocke son index, un timestamp (horodatage), les transactions, et le hash du bloc précédent. Cette base m'a permis de construire les fondations nécessaires aux développements suivants.\\
+
+
+\textbf{Étape 2 : Système de Portefeuilles}
+
+Requête : \textit{"Ajoute un système de portefeuilles avec validation des soldes"}
+
+Code : voir annexe \ref{anex2}\\
+
+J'ai ensuite développé le système de portefeuilles. J'ai implémenté les fonctions \texttt{get\_balance()} pour récupérer le solde d'une adresse, \texttt{create\_transaction()} qui vérifie automatiquement la disponibilité des fonds avant chaque transfert, et \texttt{get\_wallet\_history()} pour l'historique complet des transactions. Les adresses utilisent le format hexadécimal 0x... (16 caractères). Le système refuse automatiquement toute transaction si le solde est insuffisant, garantissant ainsi l'intégrité financière de la blockchain. J'ai également mis en place un ledger global (registre centralisé) qui conserve la trace de toutes les opérations.\\
+
+
+\textbf{Étape 3 : Minage Python Basique}
+
+Requête : \textit{"Comment créer un algorithme de Proof of Work ?"}
+
+Code : voir annexe \ref{anex3}\\
+
+J'ai développé un algorithme de Proof of Work (PoW), qui est le mécanisme de sécurité central d'une blockchain. Le principe : pour ajouter un bloc, il faut résoudre un problème mathématique difficile. Concrètement, on cherche un nombre appelé "nonce" qui, combiné aux données du bloc, produit un hash (empreinte numérique) commençant par un certain nombre de zéros. Plus il y a de zéros requis, plus c'est difficile. Le processus est itératif : on teste des millions de nombres jusqu'à trouver le bon. Cette version Python était lente (plusieurs secondes par bloc) mais fonctionnelle, posant les bases pour les optimisations futures.\\
+
+
+\textbf{Étape 4 : Module C++ Ultra-Rapide}
+
+Requête : \textit{"Crée un module C++ pour miner plus vite"}
+
+Code : voir annexe \ref{anex4}\\
+
+J'ai créé le module \texttt{mine\_pow.cpp} en C++, un langage beaucoup plus rapide que Python pour les calculs intensifs. Le C++ permet des optimisations "bas-niveau" : manipulation directe des bits en mémoire, ce qui accélère considérablement les calculs de hash. L'intégration avec Python se fait grâce à pybind11, une bibliothèque qui fait le pont entre les deux langages. Après compilation, on obtient un fichier .pyd que Python peut utiliser directement comme s'il s'agissait de code Python. Résultat : les performances sont multipliées par 10 à 50, rendant le minage quasi-instantané pour des difficultés moyennes. C'est comme passer d'une calculatrice à un supercalculateur.\\
+
+\textbf{Étape 5 : Minage Automatique avec Threading}
+
+Requête : \textit{"Minage automatique en arrière-plan avec IA"}
+
+Code : voir annexe \ref{anex5}\\
+
+J'ai finalisé le système avec le minage automatique via \texttt{auto\_miner()}, qui s'exécute en arrière-plan grâce à \texttt{threading.Thread} (mécanisme Python pour exécuter du code en parallèle sans bloquer le programme principal). J'utilise une \texttt{Queue} (file d'attente thread-safe) pour gérer les transactions en attente de validation. Le système lance 4 threads simultanés : génération de transactions IA (\texttt{prefill\_ai\_queue()}), sauvegarde automatique (\texttt{auto\_save\_thread()}), minage continu (\texttt{auto\_miner()}), et menu interactif (\texttt{run\_menu()}). La fonction \texttt{generate\_ai\_transactions()} communique avec Ollama pour créer des transactions réalistes, et \texttt{broadcast\_block()} envoie les nouveaux blocs aux autres nœuds du réseau via requêtes HTTP. Le système est ainsi devenu complètement autonome.\\
+
+\textbf{Anistanroy : Smart Contracts, Interface Web et IA}\\
+
+
+\textbf{Étape 1 : Smart Contracts}
+
+Requête : \textit{"Implémente des smart contracts pour les frais de minage"}
+
+Code : voir annexe \ref{anex6}\\
+
+J'ai développé le système de smart contracts (contrats intelligents auto-exécutables). J'ai créé une classe \texttt{SmartContract} avec une méthode \texttt{execute()} pour déclencher la logique du contrat. Le contrat principal \texttt{mining\_fee\_contract} calcule automatiquement 5€ de base plus la somme des frais de transaction, puis attribue la récompense au mineur gagnant. J'ai intégré une gestion d'erreurs avec try-except pour garantir la stabilité du système en cas de dysfonctionnement d'un contrat.\\
+
+
+\textbf{Étape 2 : Persistance JSON}
+
+Requête : \textit{"Ajoute sauvegarde/chargement automatique"}
+
+Code : voir annexe \ref{anex7}\\
+
+J'ai ensuite implémenté la persistance des données. La fonction \texttt{save\_data()} sérialise l'intégralité de la blockchain au format JSON dans le fichier \texttt{blockchain\_data.json} après chaque modification. Pour cela, j'ai développé \texttt{to\_dict()} qui convertit tous les objets Python (blocs, transactions) en dictionnaires sérialisables. À l'inverse, \texttt{load\_data()} recharge les données au démarrage via \texttt{from\_dict()} qui reconstruit les objets. Ce mécanisme assure la persistence des données entre les redémarrages de l'application.\\
+
+
+\textbf{Étape 3 : Consensus Distribué}
+
+Requête : \textit{"Synchronisation entre nœuds avec consensus"}
+
+Code : voir annexe \ref{anex7}\\
+
+Pour le réseau distribué, j'ai implémenté \texttt{resolve\_conflicts()} qui applique l'algorithme de consensus "chaîne la plus longue" (principe selon lequel la blockchain valide la plus longue fait autorité). Cette fonction récupère les chaînes des autres nœuds du réseau via requêtes HTTP, puis \texttt{is\_valid\_chain()} vérifie l'intégrité du chaînage des hash et la cohérence des transactions. Si une chaîne plus longue et valide est détectée, elle remplace automatiquement la chaîne locale. La communication entre nœuds s'effectue via des requêtes HTTP REST.\\
+
+
+\textbf{Étape 4 : Interface Flask de Base}
+
+Requête : \textit{"Crée interface Flask pour visualiser la blockchain"}
+
+Code : voir annexe \ref{anex8}\\
+
+J'ai développé l'interface web Flask avec Jinja2 et Tailwind CSS : \texttt{base.html} (template parent), \texttt{home.html} (dashboard), \texttt{blocks\_list.html}, \texttt{transactions\_list.html} (tableaux avec export CSV), \texttt{error.html}. Routes principales : \texttt{@app.route('/')}, \texttt{/blocks}, \texttt{/transactions}.\\
+
+
+\textbf{Étape 5 : Pages Détaillées et Fonctionnalités Avancées}
+
+Requête : \textit{"Ajoute pages de détails pour blocs et transactions"}
+
+Code : voir annexes \ref{anex9} et \ref{anex10}\\
+
+J'ai ajouté les pages spécialisées : \texttt{block\_detail.html}, \texttt{transaction\_detail.html}, \texttt{miners.html} (statistiques), \texttt{adresse.html} (historique portefeuille), \texttt{audit.html} (analyse avec graphiques et PDF), \texttt{download.html} (exports - voir annexe \ref{anex14}). Fonction principale : \texttt{export\_to\_csv()} pour générer les fichiers CSV.\\
+
+
+\textbf{Étape 6 : Intégration Ollama et Pages IA}
+
+Requête : \textit{"Intègre Ollama pour analyse automatique"}
+
+Code : \texttt{core/routes.py}, \texttt{templates/blockchain\_analysis.html}\\
+
+J'ai intégré l'IA Ollama : \texttt{blockchain\_analysis.html} (chat conversationnel) et \texttt{security.html} (détection d'anomalies). L'analyse des comportements suspects (richesse >30\%, mineurs >40\%, montants répétitifs) est effectuée directement dans les routes Flask. Interface AJAX pour communication avec Ollama.\\
+
+
+\textbf{Prian et Anistanroy : Intégration et Tests Réseau}\\
+
+Code et tests : voir annexes \ref{anex11} (synchro), \ref{anex12} (mineurs), \ref{anex15} (auto-miner) et \ref{anex16} (ZeroTier)\\
+
+Après avoir développé nos parties respectives, nous avons procédé à l'intégration complète du système. Pour tester le fonctionnement distribué de la blockchain, nous avons utilisé ZeroTier, un VPN (Virtual Private Network) qui crée un réseau local virtuel. Après installation et connexion au même réseau ZeroTier, chacun dispose d'une adresse IP locale (192.168.x.x) accessible à distance, simulant ainsi un véritable réseau local.
+
+Cette configuration nous a permis de tester les fonctionnalités réseau :
+
+\begin{itemize}
+    \item \textbf{Enregistrement de pairs :} Via le menu terminal, l'option \texttt{5. Enregistrer un Pair} permet d'ajouter l'adresse d'un nœud distant au réseau
+    \item \textbf{Synchronisation :} \texttt{resolve\_conflicts()} récupère les blockchains des pairs et applique l'algorithme de consensus
+    \item \textbf{Diffusion :} \texttt{broadcast\_block()} envoie automatiquement chaque nouveau bloc miné à tous les pairs enregistrés
+\end{itemize}
+
+Nous avons également intégré le module C++ avec le code Python. Le module \texttt{mine\_pow.cpp} est compilé en \texttt{mine\_module.cp311-win\_amd64.pyd} via la commande \texttt{python setup.py build\_ext --inplace}, puis importé automatiquement au démarrage, assurant ainsi des performances optimales pour le minage.
+
+Les tests via ZeroTier ont validé le bon fonctionnement du consensus distribué, de la synchronisation automatique et de la résolution de conflits entre nœuds distants.\\
+
+
+\subsection{Rôle de l'Intelligence Artificielle dans le développement}
+
+Les outils d'IA (ChatGPT, DeepSeek, GitHub Copilot) ont accéléré notre développement en générant du code initial (comme détaillé dans la section 5.1), en expliquant des concepts complexes (Proof of Work, consensus distribué, cryptographie SHA-256) et en résolvant les erreurs techniques. Pour corriger les bugs rencontrés, l'IA a notamment créé \texttt{is\_valid\_chain()} pour détecter les incohérences de hachage, \texttt{resolve\_conflicts()} pour gérer les divergences entre nœuds, et des mécanismes de gestion des erreurs HTTP (\texttt{timeout=}, \texttt{try-except requests.exceptions}). Cette assistance nous a permis de nous concentrer sur l'architecture globale et l'intégration des composants.
+
+
+\subsection{Fonctionnement de l'IA intégrée : Ollama (Llama 3.2)}
+
+Nous avons intégré Ollama (modèle Llama 3.2) directement dans la blockchain pour l'analyse intelligente (voir annexes \ref{anex13} interface analyse et \ref{anex17} code génération). L'exécution locale garantit confidentialité et rapidité sans dépendance externe.
+
+\subsubsection{Génération automatique de transactions}
+
+La fonction \texttt{generate\_ai\_transactions()} (voir annexe \ref{anex17}) génère des transactions réalistes pour alimenter la blockchain. Le système sélectionne aléatoirement des portefeuilles via \texttt{random.choice()}, détermine des montants avec \texttt{random.uniform(100, 3000)} et Ollama génère les paires expéditeur-destinataire via l'API \texttt{chat()} du module ollama. Implémentation : \texttt{ai/generator.py}.
+
+\subsubsection{Analyse conversationnelle}
+
+L'interface \texttt{blockchain\_analysis.html} (voir annexe \ref{anex18}) permet de dialoguer avec Ollama pour obtenir des analyses de la blockchain : statistiques ("Combien de blocs?"), analyses avancées ("Distribution de richesse?"), et recommandations ("Améliorer la sécurité?"). La communication avec Ollama s'effectue via l'API \texttt{chat()} du module Python ollama. Page accessible : \texttt{/blockchain-analysis}.
+
+\subsubsection{Détection d'anomalies}
+
+La page \texttt{/security} (voir annexe \ref{anex20}) analyse automatiquement la blockchain pour détecter les comportements suspects. Le système évalue :
+\begin{itemize}
+    \item Concentration de richesse : portefeuilles détenant >30\% du capital total
+    \item Dominance de mineurs : mineurs ayant produit >40\% des blocs
+    \item Patterns suspects : montants identiques répétés (wash trading), transactions à haute fréquence
+    \item Transferts anormaux : montants représentant >80\% du solde d'un portefeuille
+\end{itemize}
+
+Chaque anomalie reçoit un niveau de gravité (high/medium/low). Implémentation : \texttt{core/routes.py}, fonction \texttt{view\_security()}.
+
+\subsubsection{Implémentation technique}
+
+L'architecture repose sur le module Python \texttt{ollama} qui effectue des requêtes vers \texttt{http://localhost:11434/api/generate}. La fonction \texttt{chat()} du module ollama gère la communication avec le serveur Ollama local. Les données de la blockchain sont formatées en contexte textuel avant d'être envoyées, et les réponses sont affichées directement dans l'interface web via AJAX.
+
+\newpage
+
+\section{Difficultés rencontrées}
+
+\subsection{Compilation du module C++}
+La compilation du module C++ a représenté un défi majeur, notamment en raison des différences entre plateformes. Sous Windows, Visual Studio Build Tools nécessitait une configuration précise des chemins d'accès et des variables d'environnement. Nous avons dû installer manuellement les outils de compilation, configurer les chemins système (variables PATH), et résoudre plusieurs erreurs où le compilateur ne trouvait pas certaines bibliothèques nécessaires. Le module C++ étant obligatoire pour le minage, l'application refuse de démarrer si la compilation échoue, ce qui nous a forcés à maîtriser le processus de compilation avec pybind11.
+
+\subsection{Optimisation du Proof of Work}
+L'équilibre entre rapidité et sécurité du Proof of Work a nécessité de nombreux ajustements. Une difficulté trop faible rendait le système vulnérable aux attaques, tandis qu'une difficulté trop élevée ralentissait excessivement le minage. Nous avons dû effectuer des tests approfondis pour trouver le paramétrage optimal.
+
+\subsection{Synchronisation réseau}
+La gestion de la synchronisation entre nœuds distants via ZeroTier a révélé plusieurs problèmes imprévus :
+\begin{itemize}
+    \item \textbf{Timeouts réseau :} Les requêtes HTTP entre nœuds échouaient parfois en raison de latences variables
+    \item \textbf{Ordre des blocs :} Les blocs arrivaient parfois dans le désordre, nécessitant un mécanisme de réorganisation
+    \item \textbf{Conflits simultanés :} Deux nœuds minant simultanément créaient des branches divergentes, testant ainsi notre algorithme de consensus
+    \item \textbf{Perte de connexion :} La gestion de la reconnexion automatique et de la resynchronisation complète a dû être implémentée
+\end{itemize}
+
+\subsection{Collaboration à distance}
+La collaboration à distance a exigé une communication rigoureuse via Discord pour coordonner nos efforts et éviter les conflits dans le code. L'utilisation de Git pour le versioning et la gestion des branches a été essentielle.
+
+\subsection{Intégration d'Ollama}
+L'intégration d'Ollama pour la génération de transactions et l'analyse de la blockchain a nécessité des ajustements manuels :
+\begin{itemize}
+    \item Amélioration des questions posées à l'IA pour obtenir des réponses pertinentes et bien organisées
+    \item Gestion des délais d'attente quand l'IA prend du temps à répondre aux questions complexes
+    \item Lecture et interprétation des réponses de l'IA qui n'étaient pas toujours parfaitement formatées
+    \item Trouver le bon compromis entre la précision des analyses et la rapidité des réponses
+\end{itemize}
+\section{Bilan}
+\subsection{Conclusion}
+Ce projet a été une expérience enrichissante qui nous a permis de découvrir le monde fascinant de la blockchain et des cryptomonnaies tout en développant de nombreuses compétences techniques.
+
+Gr\^ace à ce travail, nous avons beaucoup progressé en Python, découvert les bases de la programmation C++ pour rendre les calculs plus rapides, appris comment sécuriser des données avec le hachage SHA-256, et compris comment plusieurs ordinateurs peuvent se mettre d'accord sur une même version de la blockchain. Nous avons également appris à travailler en équipe à distance en utilisant Discord pour communiquer et Git pour organiser notre code, et nous avons surmonté ensemble les nombreux défis techniques rencontrés.
+
+Fiers du résultat obtenu et de tout ce que nous avons appris, nous sommes motivés à continuer notre exploration de ce domaine passionnant.
+
+\subsection{Perspectives}
+
+\begin{itemize}
+    \item \textbf{Connexion directe via Internet} : Connecter les ordinateurs directement sans réseau local
+    
+    \item \textbf{Proof of Stake} : Remplacer le système actuel par un système moins gourmand en électricité
+    
+    \item \textbf{Smart Contracts avancés} : Créer un langage pour des contrats plus complexes
+    
+    \item \textbf{IA prédictive} : Anticiper les comportements suspects avec l'apprentissage automatique
+    
+    \item \textbf{Application mobile} : Consulter et gérer la blockchain depuis un smartphone
+\end{itemize}
+
+\section{Bibliographie}
+\begin{itemize}
+    \item Documentation officielle de Python 3.11 et Flask
+    \item Satoshi Nakamoto - Bitcoin: A Peer-to-Peer Electronic Cash System (2008)
+    \item Cours de cryptographie (SHA-256, signatures numériques)
+\end{itemize}
+
+\section{Webographie}
+\begin{itemize}
+    \item ChatGPT et Gemini : Suggestions de code et explications techniques
+    \item GitHub Copilot : Génération de code et résolution des erreurs
+    \item Ollama Documentation : Intégration IA
+    \item Visual Studio Build Tools : Compilation C++
+    \item Tutoriels C++ pour Python (pybind11, Boost.Python)
+\end{itemize}
+
+\appendix
+\section{Cahier des charges}
+\subsection{Objectifs principaux}
+\begin{itemize}
+    \item Créer une blockchain décentralisée complète avec Proof of Work
+    \item Implémenter un système de transactions sécurisées avec signatures
+    \item Développer une interface web pour visualiser et analyser la blockchain
+    \item Intégrer l'IA pour analyse automatique et génération de données
+\end{itemize}
+
+\subsection{Fonctionnalités attendues}
+\subsubsection{Système Blockchain}
+\begin{itemize}
+    \item Création et validation de blocs avec calcul de hash SHA-256
+    \item Algorithme de consensus (chaîne la plus longue)
+    \item Gestion de portefeuilles avec soldes et historiques
+    \item Synchronisation entre nœuds distribués
+\end{itemize}
+
+\subsubsection{Minage et Performance}
+\begin{itemize}
+    \item Module C++ pour minage ultra-rapide (mine\_module)
+    \item Proof of Work avec difficulté ajustable
+    \item Minage automatique en arrière-plan
+    \item Récompenses de bloc et frais de transaction via smart contracts
+\end{itemize}
+
+\subsubsection{Interface web}
+\begin{itemize}
+    \item Affichage des blocs, transactions, et statistiques
+    \item Exploration détaillée (détails de bloc/transaction)
+    \item Export CSV pour analyse externe
+    \item Analyse IA conversationnelle avec Ollama
+    \item Audit de portefeuille complet
+\end{itemize}
+
+\subsection{Contraintes techniques}
+\begin{itemize}
+    \item Langage : Python 3.11
+    \item Bibliothèques :
+    \begin{itemize}
+        \item Flask (interface web)
+        \item hashlib (cryptographie)
+        \item sqlite3 (persistance)
+        \item threading/Queue (concurrence)
+    \end{itemize}
+    \item Module C++ : mine\_module pour optimisation du minage
+    \item Compilation : Visual Studio Build Tools (Windows) ou gcc (Linux)
+    \item Outils externes :
+    \begin{itemize}
+        \item Ollama (Llama 3.2) pour analyse IA
+        \item GitHub Copilot pour l'assistance au codage
+    \end{itemize}
+\end{itemize}
+
+\subsection{Livrables}
+\subsubsection{Scripts fonctionnels}
+\begin{itemize}
+    \item \texttt{main.py} : Point d'entrée (menu + serveur Flask)
+    \item \texttt{blockchain/*.py} : Modules blockchain
+    \item \texttt{core/*.py} : Logique métier (minage, routes, utils, db)
+    \item \texttt{mine\_pow.cpp} : Module C++ optimisé
+    \item \texttt{templates/*.html} : Interface web complète
+\end{itemize}
+
+\subsubsection{Documentation}
+\begin{itemize}
+    \item Manuel utilisateur (installation, compilation, utilisation)
+    \item Rapport détaillé (architecture, contributions, défis)
+\end{itemize}
+
+\subsection{Calendrier}
+\begin{itemize}
+    \item Phase 1 : Développement de la blockchain de base (blocs, transactions)
+    \item Phase 2 : Implémentation du minage et module C++
+    \item Phase 3 : Création de l'interface web Flask
+    \item Phase 4 : Intégration Ollama et analyse IA
+    \item Phase 5 : Tests, optimisation et synchronisation réseau
+\end{itemize}
+
+\section{Manuel utilisateur}
+
+\subsection{Installation et lancement}
+\begin{enumerate}
+    \item Créer l'environnement virtuel :
+    \begin{lstlisting}[language=bash]
+    python -m venv venv
+    \end{lstlisting}
+    
+    \item Activer l'environnement virtuel :
+    \begin{lstlisting}[language=bash]
+    # Windows
+    venv\Scripts\activate
+    # Linux/Mac
+    source venv/bin/activate
+    \end{lstlisting}
+    
+    \item Se placer dans le répertoire du projet :
+    \begin{lstlisting}[language=bash]
+    cd d:\blockchainIA
+    \end{lstlisting}
+    
+    \item Installer les dépendances Python :
+    \begin{lstlisting}[language=bash]
+    pip install -r requirements.txt
+    \end{lstlisting}
+    
+    \item Compiler le module C++ :
+    \begin{lstlisting}[language=bash]
+    python setup.py build_ext --inplace
+    \end{lstlisting}
+    
+    \item Lancer l'application :
+    \begin{lstlisting}[language=bash]
+    python main.py
+    \end{lstlisting}
+    
+    \item Accès à l'interface web :
+    \begin{itemize}
+        \item Ouvrir \texttt{http://localhost:5003} dans un navigateur
+    \end{itemize}
+\end{enumerate}
+
+\subsection{Menu terminal}
+L'application propose un menu interactif avec les options suivantes :
+\begin{itemize}
+    \item \texttt{1. Miner manuellement} : Mine un nombre spécifique de blocs
+    \item \texttt{2. Afficher la blockchain} : Visualise tous les blocs et transactions
+    \item \texttt{3. Afficher les transactions échouées} : Liste les transactions rejetées
+    \item \texttt{4. Consulter un portefeuille} : Affiche solde et historique
+    \item \texttt{5. Enregistrer un Pair} : Ajoute un nœud au réseau
+    \item \texttt{6. Synchroniser la Chaîne} : Lance le consensus avec les pairs
+    \item \texttt{0. Quitter} : Arrête l'application
+\end{itemize}
+
+\subsection{Interface web - Pages disponibles}
+\begin{itemize}
+    \item \texttt{/} : Tableau de bord avec statistiques globales
+    \item \texttt{/blocks} : Liste complète des blocs
+    \item \texttt{/block/<index>} : Détails d'un bloc spécifique
+    \item \texttt{/transactions} : Liste de toutes les transactions
+    \item \texttt{/transaction/<id>} : Détails d'une transaction
+    \item \texttt{/miners} : Statistiques des mineurs
+    \item \texttt{/adresse/<wallet>} : Historique d'un portefeuille
+    \item \texttt{/audit} : Audit complet d'un portefeuille
+    \item \texttt{/blockchain-analysis} : Analyse IA de la blockchain
+    \item \texttt{/security} : Sécurité et détection d'anomalies
+    \item \texttt{/download} : Télécharger le projet
+\end{itemize}
+
+\subsection{Export de données}
+L'application permet d'exporter les données sous plusieurs formats :
+\begin{itemize}
+    \item \texttt{/export/blocks.csv} : Export CSV de tous les blocs
+    \item \texttt{/export/transactions.csv} : Export CSV des transactions
+    \item \texttt{/export/transactions-for-address.csv?address=<wallet>} : Transactions d'un portefeuille
+\end{itemize}
+
+\subsection{Utilisation de l'IA (Ollama)}
+Pour utiliser l'analyse IA, Ollama doit être installé et en fonctionnement :
+\begin{lstlisting}[language=bash]
+# Installer Ollama (ollama.ai)
+# Lancer le modele Llama 3.2
+ollama run llama3.2
+\end{lstlisting}
+
+L'IA permet :
+\begin{itemize}
+    \item Poser des questions sur la blockchain via le bouton chat
+    \item Analyser automatiquement les tendances et anomalies
+    \item Générer des transactions réalistes pour tests
+\end{itemize}
+
+\subsection{Arrêt du système}
+\begin{itemize}
+    \item Dans le menu terminal : Tapez \texttt{0}
+    \item Ou utilisez \texttt{Ctrl+C} pour arrêter l'application et le serveur Flask
+\end{itemize}
+
+\section{Annexes}
+\subsection{Évolution du projet}
+
+\subsubsection{Création d'une blockchain simple avec blocs et transactions}
+\label{anex1}
+\begin{lstlisting}[language=Python, basicstyle=\small\ttfamily, frame=single, breaklines=true]
+import hashlib
+import time
+
+class Block:
+    def __init__(self, index, transactions, previous_hash):
+        self.index = index
+        self.timestamp = time.time()
+        self.transactions = transactions
+        self.previous_hash = previous_hash
+        self.hash = self.calculate_hash()
+    
+    def calculate_hash(self):
+        block_string = f"{self.index}{self.timestamp}{self.transactions}{self.previous_hash}"
+        return hashlib.sha256(block_string.encode()).hexdigest()
+
+class Blockchain:
+    def __init__(self):
+        self.chain = [self.create_genesis_block()]
+    
+    def create_genesis_block(self):
+        return Block(0, [], "0")
+    
+    def add_block(self, transactions):
+        previous_block = self.chain[-1]
+        new_block = Block(len(self.chain), transactions, previous_block.hash)
+        self.chain.append(new_block)
+        return new_block
+    
+    def is_valid_chain(self):
+        for i in range(1, len(self.chain)):
+            current = self.chain[i]
+            previous = self.chain[i-1]
+            if current.hash != current.calculate_hash():
+                return False
+            if current.previous_hash != previous.hash:
+                return False
+        return True
+\end{lstlisting}
+
+\subsubsection{Ajout du système de portefeuilles avec validation des soldes}
+\label{anex2}
+\begin{lstlisting}[language=Python, basicstyle=\small\ttfamily, frame=single, breaklines=true]
+class Blockchain:
+    def __init__(self):
+        self.chain = [self.create_genesis_block()]
+        self.wallets = {}  # Format: {address: balance}
+    
+    def get_balance(self, address):
+        """Calcule le solde actuel d'une adresse"""
+        if address not in self.wallets:
+            self.wallets[address] = 0.0
+        return self.wallets[address]
+    
+    def create_transaction(self, sender, receiver, amount):
+        """Cree une transaction avec verification du solde"""
+        if self.get_balance(sender) < amount:
+            print(f"Erreur: Solde insuffisant pour {sender}")
+            return None
+        
+        # Deduire du sender
+        self.wallets[sender] -= amount
+        # Crediter le receiver
+        if receiver not in self.wallets:
+            self.wallets[receiver] = 0.0
+        self.wallets[receiver] += amount
+        
+        return {'sender': sender, 'receiver': receiver, 'amount': amount}
+    
+    def get_wallet_history(self, address):
+        """Retourne l'historique complet d'un portefeuille"""
+        history = []
+        for block in self.chain:
+            for tx in block.transactions:
+                if tx['sender'] == address or tx['receiver'] == address:
+                    history.append((block.index, tx))
+        return history
+\end{lstlisting}
+
+\subsubsection{Algorithme de Proof of Work basique en Python}
+\label{anex3}
+\begin{lstlisting}[language=Python, basicstyle=\small\ttfamily, frame=single, breaklines=true]
+import hashlib
+import time
+
+class Block:
+    def __init__(self, index, transactions, previous_hash, difficulty=4):
+        self.index = index
+        self.timestamp = time.time()
+        self.transactions = transactions
+        self.previous_hash = previous_hash
+        self.difficulty = difficulty
+        self.nonce = 0
+        self.hash = None
+    
+    def calculate_hash(self):
+        """Calcule le hash du bloc avec le nonce actuel"""
+        block_string = f"{self.index}{self.timestamp}{self.transactions}{self.previous_hash}{self.nonce}"
+        return hashlib.sha256(block_string.encode()).hexdigest()
+    
+    def mine_block(self):
+        """Algorithme Proof of Work: trouve un hash avec N zeros au debut"""
+        target = '0' * self.difficulty
+        start_time = time.time()
+        
+        while True:
+            self.hash = self.calculate_hash()
+            
+            # Verifie si le hash commence par le nombre requis de zeros
+            if self.hash[:self.difficulty] == target:
+                elapsed = time.time() - start_time
+                print(f"Bloc {self.index} mine en {elapsed:.2f}s avec nonce={self.nonce}")
+                return self.hash
+            
+            self.nonce += 1
+            
+            # Affiche progression tous les 100000 essais
+            if self.nonce % 100000 == 0:
+                print(f"Tentative {self.nonce}...")
+\end{lstlisting}
+
+\subsubsection{Module C++ ultra-rapide pour minage optimisé}
+\label{anex4}
+\begin{lstlisting}[language=C++, basicstyle=\small\ttfamily, frame=single, breaklines=true]
+// mine_pow.cpp
+#include <pybind11/pybind11.h>
+#include <openssl/sha.h>
+#include <string>
+#include <sstream>
+#include <iomanip>
+
+namespace py = pybind11;
+
+std::string sha256(const std::string& input) {
+    unsigned char hash[SHA256_DIGEST_LENGTH];
+    SHA256((unsigned char*)input.c_str(), input.length(), hash);
+    
+    std::stringstream ss;
+    for(int i = 0; i < SHA256_DIGEST_LENGTH; i++) {
+        ss << std::hex << std::setw(2) << std::setfill('0') 
+           << (int)hash[i];
+    }
+    return ss.str();
+}
+
+py::tuple mine_pow_cpp(const std::string& block_data, 
+                       int difficulty, 
+                       long long max_nonce) {
+    std::string target(difficulty, '0');
+    
+    for(long long nonce = 0; nonce < max_nonce; nonce++) {
+        std::string data = block_data + std::to_string(nonce);
+        std::string hash = sha256(data);
+        
+        if(hash.substr(0, difficulty) == target) {
+            return py::make_tuple(nonce, hash);
+        }
+    }
+    
+    return py::make_tuple(-1, "");
+}
+
+PYBIND11_MODULE(mine_module, m) {
+    m.def("mine_pow", &mine_pow_cpp, "Mine PoW optimise en C++");
+}
+\end{lstlisting}
+
+\textbf{Compilation :}
+\begin{lstlisting}[language=bash, basicstyle=\small\ttfamily, frame=single]
+python setup.py build_ext --inplace
+\end{lstlisting}
+
+\subsubsection{Système de minage automatique avec génération IA de transactions}
+\label{anex5}
+\begin{lstlisting}[language=Python, basicstyle=\small\ttfamily, frame=single, breaklines=true]
+import threading
+from queue import Queue
+import time
+
+def auto_miner(blockchain, ai_queue, stop_event):
+    """Thread de minage automatique"""
+    while not stop_event.is_set():
+        if not ai_queue.empty():
+            transactions = []
+            # Recuperer jusqu'a 5 transactions
+            for _ in range(min(5, ai_queue.qsize())):
+                tx = ai_queue.get()
+                transactions.append(tx)
+            
+            if transactions:
+                print(f"Minage de {len(transactions)} transactions...")
+                new_block = blockchain.add_block(transactions)
+                new_block.mine_block()
+                
+                # Diffuser aux pairs
+                broadcast_block(new_block, peers)
+                
+                # Sauvegarder
+                blockchain.save_data()
+        
+        time.sleep(2)
+
+def prefill_ai_queue(ai_queue, blockchain, stop_event):
+    """Thread de generation de transactions IA"""
+    from ai.generator import generate_ai_transactions
+    
+    while not stop_event.is_set():
+        if ai_queue.qsize() < 10:
+            txs = generate_ai_transactions(blockchain, count=5)
+            for tx in txs:
+                ai_queue.put(tx)
+        time.sleep(5)
+
+# Demarrage des threads
+stop_event = threading.Event()
+ai_queue = Queue()
+
+miner_thread = threading.Thread(target=auto_miner, 
+                                args=(bc, ai_queue, stop_event))
+ai_thread = threading.Thread(target=prefill_ai_queue, 
+                             args=(ai_queue, bc, stop_event))
+
+miner_thread.start()
+ai_thread.start()
+\end{lstlisting}
+
+\subsubsection{Implémentation des smart contracts pour gestion automatique des frais}
+\label{anex6}
+\begin{lstlisting}[language=Python, basicstyle=\small\ttfamily, frame=single, breaklines=true]
+class SmartContract:
+    def __init__(self, name, logic):
+        self.name = name
+        self.logic = logic
+    
+    def execute(self, blockchain, block):
+        """Execute la logique du contrat"""
+        try:
+            return self.logic(blockchain, block)
+        except Exception as e:
+            print(f"Erreur dans le contrat {self.name}: {e}")
+            return False
+
+def mining_fee_contract(blockchain, block):
+    """Contrat de recompense de minage"""
+    base_reward = 5.0  # Euros
+    fee_per_tx = 0.5   # Euros par transaction
+    
+    # Calculer la recompense totale
+    total_fees = len(block.transactions) * fee_per_tx
+    total_reward = base_reward + total_fees
+    
+    # Crediter le mineur
+    miner_address = block.miner
+    if miner_address not in blockchain.wallets:
+        blockchain.wallets[miner_address] = 0.0
+    blockchain.wallets[miner_address] += total_reward
+    
+    print(f"Mineur {miner_address} recompense: {total_reward} EUR")
+    return True
+
+# Enregistrer le contrat
+contracts = {
+    'mining_fee': SmartContract('mining_fee', mining_fee_contract)
+}
+\end{lstlisting}
+
+\subsubsection{Système complet avec sauvegarde JSON et consensus distribué}
+\label{anex7}
+\begin{lstlisting}[language=Python, basicstyle=\small\ttfamily, frame=single, breaklines=true]
+import json
+import requests
+
+class Blockchain:
+    def save_data(self, filename='blockchain_data.json'):
+        """Sauvegarde la blockchain en JSON"""
+        data = {
+            'chain': [block.to_dict() for block in self.chain],
+            'wallets': self.wallets
+        }
+        with open(filename, 'w') as f:
+            json.dump(data, f, indent=2)
+    
+    def load_data(self, filename='blockchain_data.json'):
+        """Charge la blockchain depuis JSON"""
+        try:
+            with open(filename, 'r') as f:
+                data = json.load(f)
+            self.chain = [Block.from_dict(b) for b in data['chain']]
+            self.wallets = data['wallets']
+        except FileNotFoundError:
+            print("Fichier non trouve, creation d'une nouvelle blockchain")
+    
+    def resolve_conflicts(self, peers):
+        """Algorithme de consensus: chaine la plus longue"""
+        longest_chain = None
+        max_length = len(self.chain)
+        
+        for peer in peers:
+            try:
+                response = requests.get(f'http://{peer}/chain', timeout=5)
+                if response.status_code == 200:
+                    data = response.json()
+                    length = data['length']
+                    chain = data['chain']
+                    
+                    if length > max_length and self.is_valid_chain(chain):
+                        max_length = length
+                        longest_chain = chain
+            except:
+                continue
+        
+        if longest_chain:
+            self.chain = [Block.from_dict(b) for b in longest_chain]
+            return True
+        return False
+\end{lstlisting}
+
+\subsubsection{Création d'une page Flask pour afficher les blocs de la blockchain}
+\label{anex8}
+\begin{lstlisting}[language=Python, basicstyle=\small\ttfamily, frame=single, breaklines=true]
+from flask import Flask, render_template, jsonify
+
+app = Flask(__name__)
+
+@app.route('/')
+def home():
+    """Dashboard principal"""
+    stats = {
+        'total_blocks': len(bc.chain),
+        'total_wallets': len(bc.wallets),
+        'total_transactions': sum(len(b.transactions) for b in bc.chain)
+    }
+    return render_template('home.html', stats=stats)
+
+@app.route('/blocks')
+def blocks_list():
+    """Liste de tous les blocs"""
+    blocks = []
+    for block in bc.chain:
+        blocks.append({
+            'index': block.index,
+            'hash': block.hash,
+            'previous_hash': block.previous_hash,
+            'timestamp': block.timestamp,
+            'transactions': len(block.transactions),
+            'miner': getattr(block, 'miner', 'Genesis')
+        })
+    return render_template('blocks_list.html', blocks=blocks)
+
+@app.route('/block/<int:index>')
+def block_detail(index):
+    """Detail d'un bloc specifique"""
+    if index >= len(bc.chain):
+        return render_template('error.html', message='Bloc non trouve'), 404
+    
+    block = bc.chain[index]
+    return render_template('block_detail.html', block=block)
+
+@app.route('/chain', methods=['GET'])
+def full_chain():
+    """API JSON de la blockchain complete"""
+    return jsonify({
+        'chain': bc.to_json_chain(),
+        'length': len(bc.chain)
+    }), 200
+\end{lstlisting}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=\linewidth, height=0.8\textheight, keepaspectratio]{annexes/a10.png}
+\caption{Dashboard principal : statistiques globales de la blockchain}
+\label{anex9}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=\linewidth, height=0.8\textheight, keepaspectratio]{annexes/a11.png}
+\caption{Page d'exploration : liste des blocs avec détails des transactions}
+\label{anex10}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=\linewidth, height=0.8\textheight, keepaspectratio]{annexes/a12.png}
+\caption{Synchronisation réseau : connexion à un pair via ZeroTier}
+\label{anex11}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=\linewidth, height=0.8\textheight, keepaspectratio]{annexes/a13.png}
+\caption{Statistiques des mineurs : classement et apparition d'un nouveau mineur}
+\label{anex12}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=\linewidth, height=0.8\textheight, keepaspectratio]{annexes/a14.png}
+\caption{Analyse IA avec Ollama : question posée et réponse générée}
+\label{anex13}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=\linewidth, height=0.8\textheight, keepaspectratio]{annexes/a15.png}
+\caption{Page de téléchargement du projet}
+\label{anex14}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=\linewidth, height=0.8\textheight, keepaspectratio]{annexes/a16.png}
+\caption{Auto-mineur activé : processus de minage automatique en action}
+\label{anex15}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=\linewidth, height=0.8\textheight, keepaspectratio]{annexes/a17.png}
+\caption{Test ZeroTier : configuration du réseau VPN pour blockchain distribuée}
+\label{anex16}
+\end{figure}
+
+\subsection{Intégration de l'IA}
+
+\subsubsection{Fonction generate\_ai\_transactions() : génération automatique par l'IA}
+\label{anex17}
+\begin{lstlisting}[language=Python, basicstyle=\small\ttfamily, frame=single, breaklines=true]
+# ai/generator.py
+import ollama
+import random
+
+def generate_ai_transactions(blockchain, count=5):
+    """Genere des transactions realistes avec Ollama"""
+    wallets = list(blockchain.wallets.keys())
+    if len(wallets) < 2:
+        return []
+    
+    # Selectionner aleatoirement des portefeuilles
+    selected = random.sample(wallets, min(count * 2, len(wallets)))
+    
+    prompt = f"""Generate {count} realistic blockchain transactions.
+Format: sender|receiver (one per line)
+Available wallets: {', '.join(selected[:10])}
+"""
+    
+    try:
+        response = ollama.chat(
+            model='llama3.2',
+            messages=[{'role': 'user', 'content': prompt}]
+        )
+        
+        lines = response['message']['content'].strip().split('\n')
+        transactions = []
+        
+        for line in lines[:count]:
+            if '|' in line:
+                parts = line.split('|')
+                sender = parts[0].strip()
+                receiver = parts[1].strip()
+                amount = random.uniform(100, 3000)
+                
+                if sender in wallets and receiver in wallets:
+                    from blockchain.transaction import Transaction
+                    tx = Transaction(sender, receiver, amount)
+                    transactions.append(tx)
+        
+        return transactions
+    except Exception as e:
+        print(f"Erreur generation IA: {e}")
+        return []
+\end{lstlisting}
+
+\subsubsection{Route /analyze-blockchain : dialogue conversationnel avec Ollama}
+\label{anex18}
+\begin{lstlisting}[language=Python, basicstyle=\small\ttfamily, frame=single, breaklines=true]
+# core/routes.py
+@app.route('/analyze-blockchain', methods=['POST'])
+def analyze_blockchain():
+    """Route pour analyser la blockchain avec donnees completes"""
+    data = request.get_json()
+    question = data.get('question', '').strip()
+    
+    if not question:
+        return jsonify({'error': 'Question vide'}), 400
+    
+    # Collecter statistiques
+    total_blocks = len(bc.chain)
+    total_wallets = len(bc.wallets)
+    total_txs = sum(len(block.transactions) for block in bc.chain)
+    
+    # Top utilisateurs actifs
+    activity_counter = {}
+    for block in bc.chain:
+        for tx in block.transactions:
+            sender = getattr(tx, 'sender', None)
+            receiver = getattr(tx, 'receiver', None)
+            if sender:
+                activity_counter[sender] = activity_counter.get(sender, 0) + 1
+            if receiver:
+                activity_counter[receiver] = activity_counter.get(receiver, 0) + 1
+    
+    top_users = sorted(activity_counter.items(), 
+                       key=lambda x: x[1], reverse=True)[:5]
+    
+    # Preparer contexte pour Ollama
+    context = f"""Analyste blockchain expert.
+Donnees: {total_blocks} blocs, {total_wallets} portefeuilles, {total_txs} TX
+Question: {question}"""
+    
+    # Appel Ollama
+    import requests
+    response = requests.post('http://localhost:11434/api/generate',
+        json={'model': 'llama3.2', 'prompt': context, 'stream': False},
+        timeout=120)
+    
+    if response.status_code == 200:
+        result = response.json()
+        return jsonify({'answer': result.get('response', 'Pas de reponse')})
+    
+    return jsonify({'error': 'Ollama non disponible'}), 503
+\end{lstlisting}
+
+\subsubsection{Préparation du contexte blockchain pour l'IA}
+\label{anex19}
+\begin{lstlisting}[language=Python, basicstyle=\small\ttfamily, frame=single, breaklines=true]
+def prepare_blockchain_context(blockchain):
+    """Prepare un resume de la blockchain pour l'IA"""
+    
+    # Statistiques globales
+    total_blocks = len(blockchain.chain)
+    total_wallets = len(blockchain.wallets)
+    total_txs = sum(len(b.transactions) for b in blockchain.chain)
+    total_wealth = sum(blockchain.wallets.values())
+    
+    # Top portefeuilles
+    sorted_wallets = sorted(blockchain.wallets.items(), 
+                           key=lambda x: x[1], reverse=True)
+    richest = sorted_wallets[:5]
+    poorest = sorted_wallets[-5:] if len(sorted_wallets) > 5 else sorted_wallets
+    
+    # Statistiques mineurs
+    miner_stats = {}
+    for block in blockchain.chain[1:]:
+        miner = getattr(block, 'miner', None)
+        if miner:
+            if miner not in miner_stats:
+                miner_stats[miner] = {'blocks': 0, 'rewards': 0}
+            miner_stats[miner]['blocks'] += 1
+            miner_stats[miner]['rewards'] += len(block.transactions) * 0.5
+    
+    top_miners = sorted(miner_stats.items(), 
+                       key=lambda x: x[1]['blocks'], reverse=True)[:5]
+    
+    # Formater le contexte
+    context = f"""BLOCKCHAIN STATS:
+- Blocs: {total_blocks}
+- Portefeuilles: {total_wallets}
+- Transactions: {total_txs}
+- Richesse totale: {total_wealth:.2f} EUR
+
+TOP 5 RICHES:\n"""
+    
+    for i, (wallet, balance) in enumerate(richest, 1):
+        context += f"{i}. {wallet}: {balance:.2f} EUR\n"
+    
+    return context
+\end{lstlisting}
+
+\subsubsection{Détection automatique de failles et vulnérabilités}
+\label{anex20}
+\begin{lstlisting}[language=Python, basicstyle=\small\ttfamily, frame=single, breaklines=true]
+# core/routes.py
+@app.route('/security')
+def view_security():
+    """Page de securite avec detection d'anomalies"""
+    anomalies = []
+    
+    # 1. Concentration de richesse
+    total_wealth = sum(bc.wallets.values())
+    sorted_wallets = sorted(bc.wallets.items(), 
+                           key=lambda x: x[1], reverse=True)
+    
+    for wallet, balance in sorted_wallets:
+        percentage = (balance / total_wealth * 100) if total_wealth > 0 else 0
+        if percentage > 30:
+            anomalies.append({
+                'type': 'wealth_concentration',
+                'severity': 'high',
+                'message': f'{wallet} detient {percentage:.1f}% de la richesse',
+                'wallet': wallet
+            })
+    
+    # 2. Dominance de mineurs
+    total_blocks = len(bc.chain) - 1
+    miner_stats = {}
+    for block in bc.chain[1:]:
+        miner = getattr(block, 'miner', None)
+        if miner:
+            miner_stats[miner] = miner_stats.get(miner, 0) + 1
+    
+    for miner, count in miner_stats.items():
+        percentage = (count / total_blocks * 100) if total_blocks > 0 else 0
+        if percentage > 40:
+            anomalies.append({
+                'type': 'miner_dominance',
+                'severity': 'high',
+                'message': f'{miner} a mine {percentage:.1f}% des blocs',
+                'wallet': miner
+            })
+    
+    # 3. Patterns suspects (montants identiques)
+    amount_counter = {}
+    for block in bc.chain:
+        for tx in block.transactions:
+            amt = getattr(tx, 'amount', 0)
+            amount_counter[amt] = amount_counter.get(amt, 0) + 1
+    
+    for amount, count in amount_counter.items():
+        if count > 5:
+            anomalies.append({
+                'type': 'suspicious_pattern',
+                'severity': 'medium',
+                'message': f'Montant {amount:.2f} EUR repete {count} fois'
+            })
+    
+    return render_template('security.html', anomalies=anomalies)
+\end{lstlisting}
+
+\subsubsection{Analyse de concentration des richesses}
+\label{anex21}
+\begin{lstlisting}[language=Python, basicstyle=\small\ttfamily, frame=single, breaklines=true]
+def check_wealth_distribution(blockchain, threshold=30):
+    """Verifie si la richesse est trop concentree"""
+    total_wealth = sum(blockchain.wallets.values())
+    
+    if total_wealth == 0:
+        return {'status': 'ok', 'message': 'Pas de richesse'}
+    
+    sorted_wallets = sorted(blockchain.wallets.items(), 
+                           key=lambda x: x[1], reverse=True)
+    
+    # Analyser top 3
+    top_3_wealth = sum(w[1] for w in sorted_wallets[:3])
+    concentration = (top_3_wealth / total_wealth * 100)
+    
+    if concentration > threshold:
+        return {
+            'status': 'warning',
+            'severity': 'high' if concentration > 50 else 'medium',
+            'concentration': concentration,
+            'message': f'Top 3 portefeuilles detiennent {concentration:.1f}%',
+            'top_wallets': sorted_wallets[:3]
+        }
+    
+    return {
+        'status': 'ok',
+        'concentration': concentration,
+        'message': f'Distribution equilibree ({concentration:.1f}%)'
+    }
+
+# Exemple d'utilisation
+result = check_wealth_distribution(bc, threshold=30)
+if result['status'] == 'warning':
+    print(f"ALERTE: {result['message']}")
+    print("Top portefeuilles:")
+    for wallet, balance in result['top_wallets']:
+        print(f"  {wallet}: {balance:.2f} EUR")
+\end{lstlisting}
+
+\subsubsection{Détection de monopoles de mineurs (risque attaque 51\%)}
+\label{anex22}
+\begin{lstlisting}[language=Python, basicstyle=\small\ttfamily, frame=single, breaklines=true]
+def analyze_miner_dominance(blockchain, threshold=40):
+    """Detecte si un mineur domine le reseau (risque attaque 51%)"""
+    total_blocks = len(blockchain.chain) - 1  # Exclure genesis
+    
+    if total_blocks == 0:
+        return {'status': 'ok', 'message': 'Pas de blocs mines'}
+    
+    # Compter blocs par mineur
+    miner_stats = {}
+    for block in blockchain.chain[1:]:
+        miner = getattr(block, 'miner', None)
+        if miner:
+            if miner not in miner_stats:
+                miner_stats[miner] = {'blocks': 0, 'percentage': 0}
+            miner_stats[miner]['blocks'] += 1
+    
+    # Calculer pourcentages
+    for miner, stats in miner_stats.items():
+        stats['percentage'] = (stats['blocks'] / total_blocks * 100)
+    
+    # Chercher dominance
+    dominant_miners = []
+    for miner, stats in miner_stats.items():
+        if stats['percentage'] > threshold:
+            dominant_miners.append({
+                'miner': miner,
+                'blocks': stats['blocks'],
+                'percentage': stats['percentage'],
+                'severity': 'critical' if stats['percentage'] > 51 else 'high'
+            })
+    
+    if dominant_miners:
+        return {
+            'status': 'warning',
+            'dominant_miners': dominant_miners,
+            'message': f'{len(dominant_miners)} mineur(s) dominant(s) detecte(s)'
+        }
+    
+    return {'status': 'ok', 'message': 'Minage bien distribue'}
+
+# Utilisation
+result = analyze_miner_dominance(bc, threshold=40)
+if result['status'] == 'warning':
+    for miner_info in result['dominant_miners']:
+        print(f"ALERTE {miner_info['severity'].upper()}: "
+              f"{miner_info['miner']} controle {miner_info['percentage']:.1f}%")
+\end{lstlisting}
+
+\subsubsection{Identification de comportements suspects (wash trading)}
+\label{anex23}
+\begin{lstlisting}[language=Python, basicstyle=\small\ttfamily, frame=single, breaklines=true]
+def find_suspicious_patterns(blockchain):
+    """Detecte les patterns suspects (montants repetitifs, haute frequence)"""
+    anomalies = []
+    
+    # 1. Montants identiques repetes (possible wash trading)
+    amount_counter = {}
+    amount_details = {}
+    
+    for block in blockchain.chain:
+        for tx in block.transactions:
+            amt = round(getattr(tx, 'amount', 0), 2)
+            sender = getattr(tx, 'sender', None)
+            receiver = getattr(tx, 'receiver', None)
+            
+            if amt not in amount_counter:
+                amount_counter[amt] = 0
+                amount_details[amt] = []
+            
+            amount_counter[amt] += 1
+            amount_details[amt].append((sender, receiver))
+    
+    for amount, count in amount_counter.items():
+        if count > 5:  # Meme montant plus de 5 fois
+            anomalies.append({
+                'type': 'repeated_amount',
+                'severity': 'medium',
+                'amount': amount,
+                'count': count,
+                'message': f'Montant {amount:.2f} EUR repete {count} fois',
+                'details': amount_details[amount][:3]  # Top 3 exemples
+            })
+    
+    # 2. Transactions circulaires (A->B, B->A)
+    circular = []
+    for block in blockchain.chain:
+        for tx in block.transactions:
+            sender = getattr(tx, 'sender', None)
+            receiver = getattr(tx, 'receiver', None)
+            
+            # Chercher transaction inverse
+            for block2 in blockchain.chain:
+                for tx2 in block2.transactions:
+                    if (getattr(tx2, 'sender', None) == receiver and 
+                        getattr(tx2, 'receiver', None) == sender):
+                        circular.append((sender, receiver))
+    
+    if circular:
+        anomalies.append({
+            'type': 'circular_transactions',
+            'severity': 'high',
+            'count': len(circular),
+            'message': f'{len(circular)} transaction(s) circulaire(s) detectee(s)'
+        })
+    
+    return anomalies
+\end{lstlisting}
+
+\subsubsection{Détection de transferts circulaires (A→B→A)}
+\label{anex24}
+\begin{lstlisting}[language=Python, basicstyle=\small\ttfamily, frame=single, breaklines=true]
+def detect_repeated_transfers(blockchain, window=10):
+    """Detecte les transferts repetes entre memes adresses"""
+    
+    # Construire historique des paires
+    transfer_pairs = {}
+    
+    for block in blockchain.chain:
+        for tx in block.transactions:
+            sender = getattr(tx, 'sender', None)
+            receiver = getattr(tx, 'receiver', None)
+            amount = getattr(tx, 'amount', 0)
+            timestamp = getattr(tx, 'timestamp', 0)
+            
+            if sender and receiver:
+                pair = tuple(sorted([sender, receiver]))
+                
+                if pair not in transfer_pairs:
+                    transfer_pairs[pair] = []
+                
+                transfer_pairs[pair].append({
+                    'sender': sender,
+                    'receiver': receiver,
+                    'amount': amount,
+                    'timestamp': timestamp
+                })
+    
+    # Analyser patterns
+    suspicious = []
+    for pair, transfers in transfer_pairs.items():
+        if len(transfers) >= window:
+            # Verifier si alterne (A->B, B->A, A->B...)
+            alternating = True
+            for i in range(1, len(transfers)):
+                if transfers[i]['sender'] == transfers[i-1]['sender']:
+                    alternating = False
+                    break
+            
+            if alternating:
+                total_amount = sum(t['amount'] for t in transfers)
+                suspicious.append({
+                    'pair': pair,
+                    'count': len(transfers),
+                    'total_amount': total_amount,
+                    'severity': 'high',
+                    'message': f'{len(transfers)} transferts alternants entre '
+                               f'{pair[0][:10]}... et {pair[1][:10]}...'
+                })
+    
+    return suspicious
+\end{lstlisting}
+
+\subsubsection{Évaluation du niveau de gravité des anomalies}
+\label{anex25}
+\begin{lstlisting}[language=Python, basicstyle=\small\ttfamily, frame=single, breaklines=true]
+def assess_severity(anomaly_type, metrics):
+    """Evalue le niveau de gravite d'une anomalie detectee"""
+    
+    severity_rules = {
+        'wealth_concentration': {
+            'critical': lambda m: m['percentage'] > 70,
+            'high': lambda m: m['percentage'] > 50,
+            'medium': lambda m: m['percentage'] > 30,
+            'low': lambda m: True
+        },
+        'miner_dominance': {
+            'critical': lambda m: m['percentage'] > 51,  # Attaque 51%
+            'high': lambda m: m['percentage'] > 40,
+            'medium': lambda m: m['percentage'] > 25,
+            'low': lambda m: True
+        },
+        'suspicious_pattern': {
+            'high': lambda m: m['count'] > 20,
+            'medium': lambda m: m['count'] > 10,
+            'low': lambda m: True
+        },
+        'circular_transactions': {
+            'critical': lambda m: m['total_amount'] > 100000,
+            'high': lambda m: m['count'] > 10,
+            'medium': lambda m: m['count'] > 5,
+            'low': lambda m: True
+        }
+    }
+    
+    if anomaly_type not in severity_rules:
+        return 'unknown'
+    
+    rules = severity_rules[anomaly_type]
+    
+    for severity in ['critical', 'high', 'medium', 'low']:
+        if severity in rules and rules[severity](metrics):
+            return severity
+    
+    return 'low'
+
+# Exemple d'utilisation
+anomalies = find_suspicious_patterns(bc)
+for anomaly in anomalies:
+    severity = assess_severity(anomaly['type'], anomaly)
+    print(f"[{severity.upper()}] {anomaly['message']}")
+\end{lstlisting}
+
+\subsubsection{Communication HTTP avec l'API Ollama}
+\label{anex26}
+\begin{lstlisting}[language=Python, basicstyle=\small\ttfamily, frame=single, breaklines=true]
+import requests
+import json
+
+def query_ollama_api(prompt, model='llama3.2', temperature=0.7, max_tokens=800):
+    """Envoie une requete a l'API Ollama et retourne la reponse"""
+    
+    url = 'http://localhost:11434/api/generate'
+    
+    payload = {
+        'model': model,
+        'prompt': prompt,
+        'stream': False,
+        'options': {
+            'temperature': temperature,
+            'num_predict': max_tokens
+        }
+    }
+    
+    try:
+        response = requests.post(
+            url,
+            json=payload,
+            headers={'Content-Type': 'application/json'},
+            timeout=120
+        )
+        
+        if response.status_code == 200:
+            data = response.json()
+            return {
+                'success': True,
+                'response': data.get('response', ''),
+                'model': data.get('model', model),
+                'done': data.get('done', False)
+            }
+        else:
+            return {
+                'success': False,
+                'error': f'HTTP {response.status_code}',
+                'message': 'Ollama API non disponible'
+            }
+    
+    except requests.exceptions.Timeout:
+        return {'success': False, 'error': 'timeout', 
+                'message': 'Delai depasse (120s)'}
+    
+    except requests.exceptions.ConnectionError:
+        return {'success': False, 'error': 'connection', 
+                'message': 'Impossible de contacter Ollama. '
+                          'Verifiez qu\'Ollama est demarre.'}
+    
+    except Exception as e:
+        return {'success': False, 'error': 'unknown', 'message': str(e)}
+\end{lstlisting}
+
+
+
+\subsection{Exemple d'exécution du projet}
+
+
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\linewidth, height=0.8\textheight, keepaspectratio]{exeprojet/1.1.png}
+    \caption{Menu interactif au démarrage de l'application}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\linewidth, height=0.8\textheight, keepaspectratio]{exeprojet/1.2.png}
+    \caption{Minage d'un bloc avec calcul du nonce et hash}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\linewidth, height=0.8\textheight, keepaspectratio]{exeprojet/2.png}
+    \caption{Visualisation complète de la chaîne de blocs avec transactions}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\linewidth, height=0.8\textheight, keepaspectratio]{exeprojet/3.png}
+    \caption{Affichage du solde et de l'historique complet d'un portefeuille}
+\end{figure}
+
+% Exemples de sortie terminal pour les options 5 et 6
+\begin{lstlisting}[language=bash,caption={Option 5 : Enregistrer un Pair}]
+5. Enregistrer un Pair
+Adresse du pair à ajouter (ex: 192.168.1.10:5003) : 192.168.1.11:5003
+Pair ajouté avec succès !
+\end{lstlisting}
+
+\begin{lstlisting}[language=bash,caption={Option 6 : Synchroniser la Chaîne}]
+6. Synchroniser la Chaîne
+Synchronisation en cours avec les pairs...
+Chaîne mise à jour : la chaîne distante était plus longue et valide.
+\end{lstlisting}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\linewidth, height=0.8\textheight, keepaspectratio]{exeprojet/4.png}
+    \caption{Interface web : Dashboard avec statistiques globales}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\linewidth, height=0.8\textheight, keepaspectratio]{exeprojet/5.png}
+    \caption{Page d'exploration des blocs avec hash, timestamp et transactions}
+\end{figure}
+
+% Détail d'un bloc (placé après la liste des blocs)
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\linewidth, height=0.8\textheight, keepaspectratio]{exeprojet/6.png}
+    \caption{Page de détails d'un bloc avec hash, nonce et liste des transactions}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\linewidth, height=0.8\textheight, keepaspectratio]{exeprojet/7.png}
+    \caption{Classement des mineurs avec blocs minés et récompenses gagnées}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\linewidth, height=0.8\textheight, keepaspectratio]{exeprojet/8.png}
+    \caption{Assistant IA Ollama analysant la blockchain et détectant des anomalies} 
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\linewidth, height=0.8\textheight, keepaspectratio]{exeprojet/9.png}
+    \caption{Audit complet d'un portefeuille avec graphiques et statistiques détaillées}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\linewidth, height=0.8\textheight, keepaspectratio]{exeprojet/10.png}
+    \caption{Page de sécurité avec validation de chaîne et consensus entre nœuds}
+\end{figure}
+
+% Page de téléchargement (placée avant export CSV)
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\linewidth, height=0.8\textheight, keepaspectratio]{annexes/a15.png}
+    \caption{Page de téléchargement du projet : instructions d'installation et réseau}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\linewidth, height=0.8\textheight, keepaspectratio]{exeprojet/12.png}
+    \caption{Export CSV de blocs et transactions}
+\end{figure}
+
+
+\end{document}

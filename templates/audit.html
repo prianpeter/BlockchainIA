@@ -1,0 +1,238 @@
+{% extends 'base.html' %}
+{% block title %}Audit IA - Documentation{% endblock %}
+
+{% block content %}
+<div class="mb-6">
+    <h1 class="text-3xl font-bold text-white mb-2">📝 Audit Intelligent de Portefeuille</h1>
+    <p class="text-slate-300">Génération automatique de rapports d'audit PDF pour déclaration fiscale</p>
+</div>
+
+<!-- Section de recherche -->
+<div class="card p-8 mb-6">
+    <div class="max-w-3xl mx-auto">
+        <h2 class="text-2xl font-bold text-black mb-4 text-center">🔍 Rechercher un Portefeuille</h2>
+        <p class="text-slate-600 text-center mb-6">Entrez l'adresse d'un portefeuille pour générer un rapport d'audit complet avec analyse IA</p>
+        
+        <div class="space-y-4">
+            <input type="text" 
+                   id="walletAddress" 
+                   placeholder="Ex: 0x1234567890abcdef..."
+                   class="w-full px-4 py-3 border-2 border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:border-transparent text-black text-lg"
+                   onkeypress="if(event.key==='Enter') searchWallet()" />
+            
+            <button onclick="searchWallet()" 
+                    class="w-full bg-indigo-600 text-white py-3 rounded-lg hover:bg-indigo-700 font-semibold text-lg transition-colors">
+                <i class="fas fa-search mr-2"></i>Analyser et Générer le Rapport PDF
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Résultat de la recherche -->
+<div id="auditResult" class="hidden">
+    <div class="card p-6 mb-6">
+        <h2 class="text-xl font-bold text-black mb-4">📊 Aperçu du Portefeuille</h2>
+        <div id="walletPreview"></div>
+    </div>
+    
+    <div class="card p-6 mb-6">
+        <h2 class="text-xl font-bold text-black mb-4">🤖 Analyse Narrative IA</h2>
+        <div id="aiNarrative" class="prose max-w-none"></div>
+    </div>
+    
+    <div class="text-center mb-8">
+        <button onclick="downloadPDF()" 
+                class="bg-green-600 text-white px-8 py-4 rounded-lg hover:bg-green-700 font-semibold text-lg transition-colors inline-flex items-center">
+            <i class="fas fa-file-pdf mr-3 text-2xl"></i>
+            <span>Télécharger le Rapport PDF Complet</span>
+        </button>
+    </div>
+</div>
+
+<!-- Section d'information -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div class="card p-6">
+        <div class="text-4xl mb-4">📄</div>
+        <h3 class="font-bold text-black mb-2">Rapport Complet</h3>
+        <p class="text-sm text-slate-600">Historique détaillé des transactions, soldes, plus-values et moins-values</p>
+    </div>
+    
+    <div class="card p-6">
+        <div class="text-4xl mb-4">🤖</div>
+        <h3 class="font-bold text-black mb-2">Analyse IA</h3>
+        <p class="text-sm text-slate-600">Récit narratif généré par intelligence artificielle sur l'activité du portefeuille</p>
+    </div>
+    
+    <div class="card p-6">
+        <div class="text-4xl mb-4">💼</div>
+        <h3 class="font-bold text-black mb-2">Déclaration Fiscale</h3>
+        <p class="text-sm text-slate-600">Document structuré utilisable comme support pour votre déclaration d'impôts</p>
+    </div>
+</div>
+
+<!-- Exemple de ce qui est inclus -->
+<div class="card p-6 mt-6">
+    <h2 class="text-xl font-bold text-black mb-4">📋 Contenu du Rapport PDF</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="bg-slate-50 rounded-lg p-4">
+            <h4 class="font-bold text-black mb-2 flex items-center">
+                <span class="bg-indigo-600 text-white rounded-full w-6 h-6 flex items-center justify-center mr-2 text-sm">1</span>
+                Informations du Portefeuille
+            </h4>
+            <ul class="text-sm text-slate-600 space-y-1 ml-8">
+                <li>• Adresse complète</li>
+                <li>• Type de compte (Utilisateur/Mineur)</li>
+                <li>• Solde actuel</li>
+                <li>• Statut d'activité</li>
+            </ul>
+        </div>
+        
+        <div class="bg-slate-50 rounded-lg p-4">
+            <h4 class="font-bold text-black mb-2 flex items-center">
+                <span class="bg-green-600 text-white rounded-full w-6 h-6 flex items-center justify-center mr-2 text-sm">2</span>
+                Résumé Financier
+            </h4>
+            <ul class="text-sm text-slate-600 space-y-1 ml-8">
+                <li>• Capital initial</li>
+                <li>• Total reçu et envoyé</li>
+                <li>• Frais de transaction</li>
+                <li>• Plus-value / Moins-value</li>
+            </ul>
+        </div>
+        
+        <div class="bg-slate-50 rounded-lg p-4">
+            <h4 class="font-bold text-black mb-2 flex items-center">
+                <span class="bg-orange-600 text-white rounded-full w-6 h-6 flex items-center justify-center mr-2 text-sm">3</span>
+                Activité Blockchain
+            </h4>
+            <ul class="text-sm text-slate-600 space-y-1 ml-8">
+                <li>• Nombre de transactions</li>
+                <li>• Blocs minés</li>
+                <li>• Frais de minage perçus</li>
+                <li>• Taux d'activité</li>
+            </ul>
+        </div>
+        
+        <div class="bg-slate-50 rounded-lg p-4">
+            <h4 class="font-bold text-black mb-2 flex items-center">
+                <span class="bg-purple-600 text-white rounded-full w-6 h-6 flex items-center justify-center mr-2 text-sm">4</span>
+                Timeline & Analyse IA
+            </h4>
+            <ul class="text-sm text-slate-600 space-y-1 ml-8">
+                <li>• 10 dernières transactions</li>
+                <li>• Récit narratif IA</li>
+                <li>• Insights et tendances</li>
+                <li>• Mentions légales</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<script>
+let currentAddress = '';
+
+function searchWallet() {
+    const address = document.getElementById('walletAddress').value.trim();
+    
+    if (!address) {
+        alert('Veuillez entrer une adresse de portefeuille.');
+        return;
+    }
+    
+    currentAddress = address;
+    const resultDiv = document.getElementById('auditResult');
+    const previewDiv = document.getElementById('walletPreview');
+    const narrativeDiv = document.getElementById('aiNarrative');
+    
+    // Afficher la section résultat
+    resultDiv.classList.remove('hidden');
+    previewDiv.innerHTML = '<div class="flex items-center text-slate-600"><i class="fas fa-spinner fa-spin mr-2"></i>Chargement des données du portefeuille...</div>';
+    narrativeDiv.innerHTML = '<div class="flex items-center text-slate-600"><i class="fas fa-spinner fa-spin mr-2"></i>L\'IA analyse l\'historique du portefeuille...</div>';
+    
+    // Scroll vers le résultat
+    resultDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    
+    // Récupérer les données du portefeuille
+    fetch(`/api/wallet-preview/${address}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                previewDiv.innerHTML = `
+                    <div class="bg-red-50 border-l-4 border-red-600 p-4">
+                        <div class="text-sm text-red-600 font-bold mb-2">❌ Erreur</div>
+                        <div class="text-black">${data.error}</div>
+                    </div>
+                `;
+                narrativeDiv.innerHTML = '';
+                return;
+            }
+            
+            // Afficher l'aperçu
+            previewDiv.innerHTML = `
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="bg-slate-50 rounded-lg p-4">
+                        <div class="text-xs uppercase text-slate-600 font-bold mb-1">Solde Actuel</div>
+                        <div class="text-2xl font-bold text-black">${data.balance} €</div>
+                    </div>
+                    <div class="bg-slate-50 rounded-lg p-4">
+                        <div class="text-xs uppercase text-slate-600 font-bold mb-1">Transactions</div>
+                        <div class="text-2xl font-bold text-black">${data.tx_count}</div>
+                    </div>
+                    <div class="bg-slate-50 rounded-lg p-4">
+                        <div class="text-xs uppercase text-slate-600 font-bold mb-1">Plus/Moins-Value</div>
+                        <div class="text-2xl font-bold ${data.net_change >= 0 ? 'text-green-600' : 'text-red-600'}">
+                            ${data.net_change >= 0 ? '+' : ''}${data.net_change} €
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <div class="text-sm text-slate-600 mb-1">Total reçu</div>
+                        <div class="text-lg font-bold text-black">${data.total_received} €</div>
+                    </div>
+                    <div>
+                        <div class="text-sm text-slate-600 mb-1">Total envoyé</div>
+                        <div class="text-lg font-bold text-black">${data.total_sent} €</div>
+                    </div>
+                    <div>
+                        <div class="text-sm text-slate-600 mb-1">Blocs minés</div>
+                        <div class="text-lg font-bold text-black">${data.blocks_mined}</div>
+                    </div>
+                    <div>
+                        <div class="text-sm text-slate-600 mb-1">Frais payés</div>
+                        <div class="text-lg font-bold text-black">${data.fees_paid} €</div>
+                    </div>
+                </div>
+            `;
+            
+            // Afficher l'analyse narrative
+            narrativeDiv.innerHTML = `
+                <div class="bg-slate-50 rounded-lg p-4 border-l-4 border-indigo-600">
+                    <div class="text-sm text-slate-600 mb-2">🤖 Analyse générée par Ollama</div>
+                    <div class="text-black whitespace-pre-wrap">${data.narrative}</div>
+                </div>
+            `;
+        })
+        .catch(error => {
+            previewDiv.innerHTML = `
+                <div class="bg-red-50 border-l-4 border-red-600 p-4">
+                    <div class="text-sm text-red-600 font-bold mb-2">❌ Erreur</div>
+                    <div class="text-black">Impossible de charger les données du portefeuille.</div>
+                </div>
+            `;
+            narrativeDiv.innerHTML = '';
+        });
+}
+
+function downloadPDF() {
+    if (!currentAddress) {
+        alert('Aucun portefeuille sélectionné.');
+        return;
+    }
+    
+    // Ouvrir le PDF dans un nouvel onglet
+    window.open(`/generate-audit/${currentAddress}`, '_blank');
+}
+</script>
+{% endblock %}

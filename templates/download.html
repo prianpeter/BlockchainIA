@@ -1,0 +1,166 @@
+{% extends 'base.html' %}
+{% block title %}Télécharger & Rejoindre le Réseau — BlockchainIA{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto">
+    <h1 class="text-3xl font-bold text-white mb-2">🚀 Rejoignez Notre Réseau Blockchain</h1>
+    <p class="text-slate-400 mb-8">Téléchargez le projet et commencez à miner avec nous !</p>
+
+    <!-- Card principale -->
+    <div class="card p-8 mb-6">
+        <div class="flex items-center justify-between mb-6">
+            <div>
+                <h2 class="text-2xl font-bold text-slate-800 mb-2">📦 Télécharger le Projet</h2>
+                <p class="text-slate-600">Obtenez tous les fichiers nécessaires pour démarrer</p>
+            </div>
+            <a href="/download/project.zip" class="bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-4 rounded-lg font-bold text-lg transition shadow-lg">
+                <i class="fa fa-download mr-2"></i>Télécharger ZIP
+            </a>
+        </div>
+    </div>
+
+    <!-- Instructions -->
+    <div class="card p-8 mb-6">
+        <h2 class="text-xl font-bold text-slate-800 mb-4">📋 Instructions d'Installation</h2>
+        
+        <div class="space-y-6">
+            <!-- Étape 1 -->
+            <div class="flex gap-4">
+                <div class="flex-shrink-0 bg-indigo-100 text-indigo-600 w-10 h-10 rounded-full flex items-center justify-center font-bold">
+                    1
+                </div>
+                <div class="flex-1">
+                    <h3 class="font-bold text-slate-800 mb-2">Extraire le ZIP</h3>
+                    <p class="text-slate-600 text-sm">Décompressez le fichier <code class="bg-slate-100 px-2 py-1 rounded">blockchain_project.zip</code> dans un dossier de votre choix.</p>
+                </div>
+            </div>
+
+            <!-- Étape 2 -->
+            <div class="flex gap-4">
+                <div class="flex-shrink-0 bg-indigo-100 text-indigo-600 w-10 h-10 rounded-full flex items-center justify-center font-bold">
+                    2
+                </div>
+                <div class="flex-1">
+                    <h3 class="font-bold text-slate-800 mb-2">Créer un Environnement Virtuel</h3>
+                    <p class="text-slate-600 text-sm mb-2">Ouvrez un terminal dans le dossier du projet et créez un environnement virtuel :</p>
+                    <div class="bg-slate-900 text-green-400 p-3 rounded font-mono text-sm mb-2">
+                        python -m venv venv
+                    </div>
+                    <p class="text-slate-600 text-sm mb-2">Activez l'environnement virtuel :</p>
+                    <div class="bg-slate-900 text-green-400 p-3 rounded font-mono text-sm">
+                        # Windows<br>
+                        venv\Scripts\activate<br>
+                        <br>
+                        # Mac/Linux<br>
+                        source venv/bin/activate
+                    </div>
+                </div>
+            </div>
+
+            <!-- Étape 3 -->
+            <div class="flex gap-4">
+                <div class="flex-shrink-0 bg-indigo-100 text-indigo-600 w-10 h-10 rounded-full flex items-center justify-center font-bold">
+                    3
+                </div>
+                <div class="flex-1">
+                    <h3 class="font-bold text-slate-800 mb-2">Installer les Dépendances</h3>
+                    <p class="text-slate-600 text-sm mb-2">Avec l'environnement virtuel activé, installez les packages :</p>
+                    <div class="bg-slate-900 text-green-400 p-3 rounded font-mono text-sm">
+                        pip install -r requirements.txt
+                    </div>
+                </div>
+            </div>
+
+            <!-- Étape 4 -->
+            <div class="flex gap-4">
+                <div class="flex-shrink-0 bg-indigo-100 text-indigo-600 w-10 h-10 rounded-full flex items-center justify-center font-bold">
+                    4
+                </div>
+                <div class="flex-1">
+                    <h3 class="font-bold text-slate-800 mb-2">Installer ZeroTier</h3>
+                    <p class="text-slate-600 text-sm mb-2">Téléchargez et installez ZeroTier depuis <a href="https://www.zerotier.com/download/" target="_blank" class="text-indigo-600 font-semibold hover:underline">zerotier.com/download</a></p>
+                </div>
+            </div>
+
+            <!-- Étape 5 -->
+            <div class="flex gap-4">
+                <div class="flex-shrink-0 bg-indigo-100 text-indigo-600 w-10 h-10 rounded-full flex items-center justify-center font-bold">
+                    5
+                </div>
+                <div class="flex-1">
+                    <h3 class="font-bold text-slate-800 mb-2">Rejoindre le Réseau ZeroTier</h3>
+                    <p class="text-slate-600 text-sm mb-2">Clic droit sur l'icône ZeroTier → "Join Network" et entrez :</p>
+                    <div class="bg-slate-900 text-green-400 p-3 rounded font-mono text-sm flex items-center justify-between">
+                        <span id="networkId">{{ network_id }}</span>
+                        <button onclick="copyNetworkId()" class="bg-slate-700 hover:bg-slate-600 px-3 py-1 rounded text-xs text-white transition">
+                            <i class="fa fa-copy mr-1"></i>Copier
+                        </button>
+                    </div>
+                    <p class="text-xs text-slate-500 mt-2">⚠️ Attendez d'être autorisé par l'administrateur du réseau</p>
+                </div>
+            </div>
+
+            <!-- Étape 6 -->
+            <div class="flex gap-4">
+                <div class="flex-shrink-0 bg-indigo-100 text-indigo-600 w-10 h-10 rounded-full flex items-center justify-center font-bold">
+                    6
+                </div>
+                <div class="flex-1">
+                    <h3 class="font-bold text-slate-800 mb-2">⚡ Compiler le Module C++</h3>
+                    <p class="text-slate-600 text-sm mb-2">Le minage nécessite le module C++ optimisé :</p>
+                    <div class="bg-slate-900 text-green-400 p-3 rounded font-mono text-sm">
+                        python setup.py build_ext --inplace
+                    </div>
+                    <p class="text-xs text-slate-500 mt-2">⚠️ Nécessite un compilateur C++ (Visual Studio sur Windows, gcc sur Linux/Mac)</p>
+                </div>
+            </div>
+
+            <!-- Étape 7 -->
+            <div class="flex gap-4">
+                <div class="flex-shrink-0 bg-indigo-100 text-indigo-600 w-10 h-10 rounded-full flex items-center justify-center font-bold">
+                    7
+                </div>
+                <div class="flex-1">
+                    <h3 class="font-bold text-slate-800 mb-2">Lancer l'Application</h3>
+                    <p class="text-slate-600 text-sm mb-2">Dans le dossier du projet :</p>
+                    <div class="bg-slate-900 text-green-400 p-3 rounded font-mono text-sm">
+                        python main.py
+                    </div>
+                    <p class="text-xs text-slate-500 mt-2">📌 Choisissez "Oui" pour vous connecter à la blockchain existante</p>
+                </div>
+            </div>
+
+            <!-- Étape 8 -->
+            <div class="flex gap-4">
+                <div class="flex-shrink-0 bg-indigo-100 text-indigo-600 w-10 h-10 rounded-full flex items-center justify-center font-bold">
+                    8
+                </div>
+                <div class="flex-1">
+                    <h3 class="font-bold text-slate-800 mb-2">Obtenir l'IP du Nœud Principal</h3>
+                    <p class="text-slate-600 text-sm mb-2">Contactez l'administrateur pour obtenir l'adresse IP ZeroTier du nœud principal.</p>
+                    <p class="text-xs text-slate-500">Format : <code class="bg-slate-100 px-2 py-1 rounded">http://172.22.xxx.xxx:{{ node_port }}</code></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Aide & Support -->
+    <div class="card p-6">
+        <h3 class="font-bold text-slate-800 mb-3">💡 Besoin d'Aide ?</h3>
+        <ul class="space-y-2 text-sm text-slate-600">
+            <li><i class="fa fa-check-circle text-green-500 mr-2"></i>Assurez-vous que ZeroTier est bien connecté (icône verte)</li>
+            <li><i class="fa fa-check-circle text-green-500 mr-2"></i>Vérifiez que le port {{ node_port }} n'est pas déjà utilisé</li>
+            <li><i class="fa fa-check-circle text-green-500 mr-2"></i>Si Ollama n'est pas installé, l'IA ne fonctionnera pas (optionnel)</li>
+        </ul>
+    </div>
+</div>
+
+<script>
+function copyNetworkId() {
+    const networkId = document.getElementById('networkId').textContent;
+    navigator.clipboard.writeText(networkId).then(() => {
+        alert('Network ID copié dans le presse-papiers !');
+    });
+}
+</script>
+{% endblock %}

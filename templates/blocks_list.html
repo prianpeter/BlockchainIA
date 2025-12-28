@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% block title %}Blocks — BlockchainIA{% endblock %}
+
+{% block content %}
+<div class="flex items-center justify-between mb-6">
+    <div>
+        <h1 class="text-2xl font-bold text-white">Blocks</h1>
+        <p class="text-sm text-slate-300">Liste complète des blocs</p>
+    </div>
+    <div class="flex items-center space-x-3">
+        <a href="/export/blocks.csv" class="text-sm bg-slate-100 px-3 py-1 rounded hover:bg-slate-200 text-slate-800">Download CSV</a>
+        <a href="/export/transactions.csv" class="text-sm bg-slate-100 px-3 py-1 rounded hover:bg-slate-200 text-slate-800">Tx CSV</a>
+        <div class="text-sm text-slate-200">Total blocs : <strong class="text-white">{{ total }}</strong></div>
+    </div>
+</div>
+
+<div class="card overflow-x-auto">
+    <table class="w-full text-sm border-collapse" style="table-layout: auto;">
+        <thead class="bg-slate-50">
+            <tr class="text-slate-600 text-xs uppercase">
+                <th class="px-4 py-3 text-center border border-slate-200" style="width: auto;">Block</th>
+                <th class="px-4 py-3 text-center border border-slate-200" style="width: auto;">Age</th>
+                <th class="px-4 py-3 text-center border border-slate-200" style="width: auto;">Txns</th>
+                <th class="px-4 py-3 text-left border border-slate-200" style="width: auto;">Miner</th>
+                <th class="px-4 py-3 text-left border border-slate-200" style="width: auto;">Hash</th>
+                <th class="px-4 py-3 text-center border border-slate-200" style="width: auto;">Reward</th>
+                <th class="px-4 py-3 text-center border border-slate-200" style="width: auto;">Action</th>
+            </tr>
+        </thead>
+        <tbody class="text-slate-700">
+            {% for b in blocks %}
+            <tr class="border-t hover:bg-slate-50">
+                <td class="px-4 py-3 text-center border border-slate-200"><a href="/block/{{ b.index }}" class="text-indigo-600 font-bold">{{ b.index }}</a></td>
+                <td class="px-4 py-3 text-center border border-slate-200">{{ b.age }}</td>
+                <td class="px-4 py-3 text-center border border-slate-200">{{ b.tx_count }}</td>
+                <td class="px-4 py-3 font-mono break-words border border-slate-200"><a href="/address/{{ b.miner }}" class="text-indigo-600">{{ b.miner }}</a></td>
+                <td class="px-4 py-3 font-mono break-all border border-slate-200">{{ b.hash_short }}</td>
+                <td class="px-4 py-3 text-center text-slate-800 border border-slate-200">{{ "%.2f"|format(b.reward if b.reward is defined else 0.0) }} €</td>
+                <td class="px-4 py-3 text-center border border-slate-200"><a href="/block/{{ b.index }}" class="text-indigo-600 hover:underline">View</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div class="mt-4 flex items-center justify-between">
+    <div class="text-sm muted">Affichage : <strong class="text-slate-800">{{ per_page }}</strong> / page — Total : <strong>{{ total }}</strong></div>
+    <nav class="inline-flex rounded-md shadow-sm -space-x-px" role="navigation" aria-label="Pagination">
+        <a class="px-3 py-1 border bg-white text-slate-700 rounded-l" href="?page=1&per_page={{ per_page }}">First</a>
+
+        {% if page > 1 %}
+            <a class="px-3 py-1 border bg-white text-slate-700" href="?page={{ page - 1 }}&per_page={{ per_page }}">Prev</a>
+        {% else %}
+            <span class="px-3 py-1 border bg-slate-100 text-slate-400">Prev</span>
+        {% endif %}
+
+        {% for p in range(1, total_pages + 1) %}
+            {% if p == page %}
+                <span class="px-3 py-1 border bg-indigo-600 text-white">{{ p }}</span>
+            {% else %}
+                <a class="px-3 py-1 border bg-white text-slate-700" href="?page={{ p }}&per_page={{ per_page }}">{{ p }}</a>
+            {% endif %}
+        {% endfor %}
+
+        {% if page < total_pages %}
+            <a class="px-3 py-1 border bg-white text-slate-700" href="?page={{ page + 1 }}&per_page={{ per_page }}">Next</a>
+        {% else %}
+            <span class="px-3 py-1 border bg-slate-100 text-slate-400">Next</span>
+        {% endif %}
+
+        <a class="px-3 py-1 border bg-white text-slate-700 rounded-r" href="?page={{ total_pages }}&per_page={{ per_page }}">Last</a>
+    </nav>
+</div>
+
+<div class="mt-6 text-right">
+    <a href="/" class="text-sm text-indigo-600 hover:underline">← Retour à l'accueil</a>
+</div>
+{% endblock %}

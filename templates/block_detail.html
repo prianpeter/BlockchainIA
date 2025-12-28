@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% block title %}Bloc #{{ block.index }} — BlockchainIA{% endblock %}
+
+{% block content %}
+<a href="/blocks" class="text-sm link-indigo mb-4 inline-block"><i class="fa fa-arrow-left mr-2"></i>Retour aux blocs</a>
+
+<h2 class="text-2xl font-semibold text-slate-800 mb-4">Bloc #{{ block.index }}</h2>
+
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div class="card p-4">
+        <div class="text-xs text-slate-500">Hash</div>
+        <div class="font-mono text-sm text-slate-800 break-words">{{ block.hash }}</div>
+
+        <div class="mt-4 text-xs text-slate-500">Previous Hash</div>
+        <div class="font-mono text-sm text-slate-800 break-words">{{ block.previous_hash }}</div>
+
+        <div class="mt-4 text-xs text-slate-500">Timestamp</div>
+        <div class="text-sm text-slate-800">{{ formatted_time }}</div>
+    </div>
+
+    <div class="card p-4">
+        <div class="text-xs text-slate-500">Mineur</div>
+        <div class="font-mono text-sm text-slate-800">{{ block.miner }}</div>
+
+        <div class="mt-4 text-xs text-slate-500">Transactions</div>
+        <div class="text-sm font-bold text-slate-800">{{ block.transactions | length }}</div>
+
+        <div class="mt-4 text-xs text-slate-500">Confirmations</div>
+        <div class="text-sm font-bold text-slate-800">{{ confirmations }}</div>
+    </div>
+</div>
+
+<div class="mt-6 card p-4">
+    <h3 class="font-semibold text-slate-700 mb-4">Transactions dans le bloc</h3>
+    {% if block.transactions | length == 0 %}
+        <p class="text-sm muted">Aucune transaction dans ce bloc.</p>
+    {% else %}
+        <div class="space-y-3">
+        {% for tx in block.transactions %}
+            <div class="p-3 border rounded border-slate-100">
+                <div class="flex items-center justify-between mb-2">
+                    <a href="/tx/{{ tx.id or tx.hash }}" class="font-mono text-indigo-600 font-semibold">{{ tx.id or tx.hash }}</a>
+                    <span class="text-sm text-slate-400">{{ tx.amount }} €</span>
+                </div>
+                <div class="text-xs text-slate-500">De <a href="/address/{{ tx.sender }}" class="link-indigo font-mono">{{ tx.sender }}</a> → À <a href="/address/{{ tx.receiver }}" class="link-indigo font-mono">{{ tx.receiver }}</a></div>
+            </div>
+        {% endfor %}
+        </div>
+    {% endif %}
+</div>
+
+<div class="mt-6 card p-4">
+    <h4 class="text-sm text-slate-700 font-semibold">Données brutes</h4>
+    <pre class="text-xs bg-slate-100 text-slate-900 p-3 rounded mt-2 overflow-auto">{{ block_dict | tojson(indent=2) }}</pre>
+</div>
+{% endblock %}
