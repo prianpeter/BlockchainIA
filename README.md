@@ -91,7 +91,9 @@ N'hésitez pas à explorer l'interface web pour découvrir toutes les fonctionna
 >
 > **Étapes recommandées :**
 > 1. Sur chaque ordinateur, lancez l'application normalement.
+>    - Il est conseillé de configurer chaque application sur un **port différent** (par exemple 5000 et 5001) pour éviter les conflits.
 > 2. Utilisez l'**option 6** pour ajouter l'adresse de l'autre ordinateur et synchroniser la blockchain. Cela permet d'avoir la même blockchain sur les deux machines.
+>    - Avant la synchronisation, il est recommandé de **miner quelques blocs sur l'une des deux blockchains** afin d'obtenir une chaîne plus longue (la plus longue sera conservée lors de la synchronisation).
 > 3. Vous pouvez alors miner à deux sur la même blockchain, les blocs seront partagés et synchronisés entre les deux ordinateurs.
 >
 > ⚠️ Assurez-vous que les ports nécessaires sont ouverts sur les deux machines et que les pare-feux ne bloquent pas la connexion.
