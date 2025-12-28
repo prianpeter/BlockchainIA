@@ -50,7 +50,10 @@ python main.py
 - `requirements.txt` : dépendances Python
 - `setup.py` : script de compilation du module natif
 
+
 ## Notes
+
+- Il est nécessaire d'activer Ollama (serveur local de modèles IA) pour que toutes les fonctionnalités d'IA du projet fonctionnent correctement. Consultez la documentation d'Ollama pour l'installation et le démarrage.
 
 - Pour toute question ou contribution, ouvrez une issue ou une pull request.
 ***
