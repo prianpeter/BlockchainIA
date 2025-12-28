@@ -8,6 +8,7 @@ Ce projet est une application de blockchain/minage écrite en Python, avec des m
 - pip (gestionnaire de paquets Python)
 - Un compilateur C++ (pour le module natif, si recompilation nécessaire)
 
+
 ## Installation
 
 1. **Cloner le dépôt**
@@ -17,19 +18,34 @@ git clone https://github.com/prianos/BlockchainIA.git
 cd BlockchainIA
 ```
 
-2. **Installer les dépendances Python**
+2. **Créer et activer un environnement virtuel Python**
+
+Sous Windows :
+```bash
+python -m venv venv
+venv\Scripts\activate
+```
+Sous Linux/Mac :
+```bash
+python3 -m venv venv
+source venv/bin/activate
+```
+
+3. **Installer les dépendances Python dans le venv**
 
 ```bash
 pip install -r requirements.txt
 ```
 
-3. **Compiler le module natif (si nécessaire)**
+4. **Compiler le module natif C++ dans le venv (si nécessaire)**
 
 Si le module `mine_module` n'est pas déjà compilé pour votre plateforme :
 
 ```bash
 python setup.py build_ext --inplace
 ```
+
+Assurez-vous que l'environnement virtuel est bien activé lors de la compilation et de l'utilisation du projet.
 
 ## Utilisation
 
