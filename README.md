@@ -1,4 +1,4 @@
-# vfin
+# blockchainia
 
 Ce projet est une application de blockchain/minage écrite en Python, avec des modules natifs C++ pour l'accélération du minage.
 
