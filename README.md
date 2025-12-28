@@ -83,6 +83,19 @@ L'application lance un serveur web (par défaut sur http://127.0.0.1:5000). Ouvr
 
 N'hésitez pas à explorer l'interface web pour découvrir toutes les fonctionnalités disponibles.
 
+## Utilisation avancée : minage à plusieurs (option 5 et 6)
+
+> **Facultatif :**
+> 
+> Pour utiliser l'**option 5** (connexion à un autre ordinateur pour miner à deux), il est nécessaire que les deux ordinateurs soient sur le **même réseau local** (Wi-Fi/ethernet) ou connectés via un service comme **Zerotier** (VPN privé).
+>
+> **Étapes recommandées :**
+> 1. Sur chaque ordinateur, lancez l'application normalement.
+> 2. Utilisez l'**option 6** pour ajouter l'adresse de l'autre ordinateur et synchroniser la blockchain. Cela permet d'avoir la même blockchain sur les deux machines.
+> 3. Vous pouvez alors miner à deux sur la même blockchain, les blocs seront partagés et synchronisés entre les deux ordinateurs.
+>
+> ⚠️ Assurez-vous que les ports nécessaires sont ouverts sur les deux machines et que les pare-feux ne bloquent pas la connexion.
+
 ## Structure du projet
 
 - `main.py` : point d'entrée principal
