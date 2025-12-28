@@ -47,6 +47,7 @@ python setup.py build_ext --inplace
 
 Assurez-vous que l'environnement virtuel est bien activé lors de la compilation et de l'utilisation du projet.
 
+
 ## Utilisation
 
 Lancer l'application principale :
@@ -54,6 +55,33 @@ Lancer l'application principale :
 ```bash
 python main.py
 ```
+
+L'application lance un serveur web (par défaut sur http://127.0.0.1:5000). Ouvrez ce lien dans votre navigateur pour accéder à l'interface.
+
+### Exemples de choses à faire
+
+- **Créer un bloc** :
+	- Depuis l'interface web, allez sur la page "Ajouter une transaction" ou "Miner un bloc" selon les options disponibles.
+	- Remplissez les champs requis et validez pour générer une transaction ou miner un nouveau bloc.
+
+- **Consulter la blockchain** :
+	- Naviguez dans les menus pour voir la liste des blocs, le détail d'un bloc ou d'une transaction.
+
+- **Utiliser l'IA avec Ollama** :
+	- Assurez-vous qu'Ollama est lancé localement (par défaut sur http://localhost:11434).
+	- Depuis l'interface, accédez à la section IA (par exemple "Audit IA" ou "Générateur IA").
+	- Entrez une requête, par exemple :
+		- "Analyse la sécurité de la blockchain."
+		- "Génère un résumé des transactions du dernier bloc."
+	- L'IA répondra directement dans l'interface.
+
+- **Exemple de requête API (avancé)** :
+	- Vous pouvez interagir avec l'API REST (si activée) via curl ou Postman, par exemple :
+		```bash
+		curl http://127.0.0.1:5000/api/blocks
+		```
+
+N'hésitez pas à explorer l'interface web pour découvrir toutes les fonctionnalités disponibles.
 
 ## Structure du projet
 
