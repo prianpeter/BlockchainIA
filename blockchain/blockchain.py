@@ -226,32 +226,33 @@ class Blockchain:
                 all_wallets_in_chain.add(tx.sender)
                 all_wallets_in_chain.add(tx.receiver)
         
-        # Créer un nouveau dictionnaire avec UNIQUEMENT les wallets utilisés
-        self.wallets = {}
-        for wallet_id in all_wallets_in_chain:
-            if wallet_id in all_miners:
-                self.wallets[wallet_id] = 50000
-            else:
-                self.wallets[wallet_id] = 5000
-        
+        # Tous les wallets démarrent à 0
+        self.wallets = {wid: 0 for wid in all_wallets_in_chain}
         self.internal_tx_history = []
 
         for block in self.chain:
-            if block.index == 0: continue
-            
+            if block.index == 0:
+                continue
             block_miner = block.miner
-            if not block_miner: continue
+            if not block_miner:
+                continue
+            # Récompense de minage (si applicable)
+            # À adapter si la récompense dépend du nombre de transactions ou autre
+            block_reward = 0
+            try:
+                block_reward = block.reward if hasattr(block, 'reward') else 0
+            except Exception:
+                block_reward = 0
+            self.wallets[block_miner] += block_reward
 
             for tx in block.transactions:
                 # 1. Transfert du montant
                 self.wallets[tx.sender] -= tx.amount
                 self.wallets[tx.receiver] += tx.amount
-                
                 # 2. Frais (Fee) attribués au mineur du bloc
                 fee = 1.0
                 self.wallets[tx.sender] -= fee
                 self.wallets[block_miner] += fee
-                
                 self.internal_tx_history.append({
                     "sender": tx.sender, "receiver": block_miner,
                     "amount": fee, "type": "fee", "timestamp": tx.timestamp
