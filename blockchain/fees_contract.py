@@ -36,6 +36,9 @@ def mining_fee_contract(contract, blockchain, sender, amount):
 
     # 1. Vérification des fonds pour les frais
     if blockchain.wallets.get(sender, 0) >= fee:
+        # Initialisation du portefeuille du mineur si nécessaire
+        if miner_wallet not in blockchain.wallets:
+            blockchain.wallets[miner_wallet] = 0
 
         # 2. Application du mouvement des frais
         blockchain.wallets[sender] -= fee
