@@ -14,7 +14,7 @@ Ce projet est une application de blockchain/minage écrite en Python, avec des m
 1. **Cloner le dépôt**
 
 ```bash
-git clone https://github.com/prianos/BlockchainIA.git
+git clone https://github.com/prianpeter/BlockchainIA.git
 cd BlockchainIA
 ```
 
