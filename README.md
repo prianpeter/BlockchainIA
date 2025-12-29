@@ -43,8 +43,9 @@ Si le module `mine_module` n'est pas déjà compilé pour votre plateforme :
 
 Sur Windows:
 - Ouvrir le terminal compilateur : x64 Native Tools Command Prompt for VS 2022 par exemple
-- Se placer dans le venv et l'activer
-- Se replacer dans \BlockchainIA
+- Se placer dans cd C:\Users\votreordinateur\BlockchainIA\venv\Scripts
+- Activer le venv : activate
+- Se replacer dans \BlockchainIA: faire cd.. deux fois
 - Executer cette commande
 
 Sur Linux/Mac:
