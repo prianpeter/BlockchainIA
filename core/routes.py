@@ -114,26 +114,27 @@ def init_routes(app, bc, peers, node_id, node_port, base_reward, fee_per_tx, ai_
         """Route pour recevoir un nouveau bloc d'un pair"""
         data = request.get_json()
         try:
-            txs = [Transaction(t['sender'], t['receiver'], t.get('amount'), t.get('status', 'success'), 
+            txs = [Transaction(t['sender'], t['receiver'], t.get('amount'), t.get('status', 'success'),
                               t.get('signature'), t.get('timestamp')) for t in data.get('transactions', [])]
-            new_block = Block(data['index'], txs, data['previous_hash'], data['proof'], 
+            new_block = Block(data['index'], txs, data['previous_hash'], data['proof'],
                             data.get('timestamp'), data.get('hash'), data.get('miner'))
 
             last_block = bc.chain[-1]
 
-            if new_block.index > last_block.index:
-                print(f"\n[NET] Nouveau bloc détecté ({new_block.index}). Synchronisation...")
-                replaced = bc.resolve_conflicts(peers)
-                if replaced:
-                    cleanup_transaction_pool(new_block.transactions, ai_queue, transaction_pool_ids, bc)
-                    return jsonify({"message": "Chaîne mise à jour"}), 201
-
-            elif new_block.index == last_block.index + 1:
+            if new_block.index == last_block.index + 1:
+                # Bloc suivant attendu
                 if bc.is_valid_chain([last_block, new_block]):
                     bc.add_block(new_block)
                     cleanup_transaction_pool(new_block.transactions, ai_queue, transaction_pool_ids, bc)
                     print(f"\n[OK] Bloc {new_block.index} ajouté.")
                     return jsonify({"message": "Bloc ajouté"}), 201
+            elif new_block.index <= last_block.index:
+                # Bloc déjà connu ou trop ancien
+                return jsonify({"message": "Bloc déjà connu ou ancien"}), 200
+            else:
+                # Bloc trop avancé, on ignore (pas de sync auto)
+                print(f"[NET] Bloc reçu trop avancé (index {new_block.index}), chaîne locale en retard. Ignoré.")
+                return jsonify({"message": "Bloc trop avancé, synchronisation manuelle requise"}), 202
 
         except Exception as e:
             print(f"[ERR] Erreur réception bloc: {e}")
