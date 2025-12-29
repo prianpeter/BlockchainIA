@@ -1,3 +1,4 @@
+
 \documentclass[a4paper, 12pt, twoside]{article}
 \usepackage[utf8]{inputenc}     % LaTeX, comprend les accents !
 \usepackage[T1]{fontenc}
@@ -342,8 +343,6 @@ Voici les outils que nous avons utilisés, expliqués simplement :
     \item \textbf{reportlab} : Crée des rapports PDF pour les audits de portefeuilles
 \end{itemize}
 
-\newpage
-
 \section{Travail réalisé}
 
 Le travail s'est divisé en deux contributions majeures :\\
@@ -469,7 +468,7 @@ Requête : \textit{"Ajoute pages de détails pour blocs et transactions"}
 
 Code : voir annexes \ref{anex9} et \ref{anex10}\\
 
-J'ai ajouté les pages spécialisées : \texttt{block\_detail.html}, \texttt{transaction\_detail.html}, \texttt{miners.html} (statistiques), \texttt{adresse.html} (historique portefeuille), \texttt{audit.html} (analyse avec graphiques et PDF), \texttt{download.html} (exports - voir annexe \ref{anex14}). Fonction principale : \texttt{export\_to\_csv()} pour générer les fichiers CSV.\\
+J'ai ajouté les pages spécialisées : \texttt{block\_detail.html}, \texttt{transaction\_detail.html}, \texttt{miners.html} (statistiques), \texttt{adresse.html} (historique portefeuille), \texttt{audit.html} (analyse avec graphiques et PDF), \texttt{download.html} (exports du projet - voir annexe \ref{anex14}). Fonction principale : \texttt{export\_to\_csv()} pour générer les fichiers CSV.\\
 
 
 \textbf{Étape 6 : Intégration Ollama et Pages IA}
@@ -532,8 +531,6 @@ Chaque anomalie reçoit un niveau de gravité (high/medium/low). Implémentation
 \subsubsection{Implémentation technique}
 
 L'architecture repose sur le module Python \texttt{ollama} qui effectue des requêtes vers \texttt{http://localhost:11434/api/generate}. La fonction \texttt{chat()} du module ollama gère la communication avec le serveur Ollama local. Les données de la blockchain sont formatées en contexte textuel avant d'être envoyées, et les réponses sont affichées directement dans l'interface web via AJAX.
-
-\newpage
 
 \section{Difficultés rencontrées}
 
@@ -708,7 +705,7 @@ Fiers du résultat obtenu et de tout ce que nous avons appris, nous sommes motiv
     pip install -r requirements.txt
     \end{lstlisting}
     
-    \item Compiler le module C++ :
+    \item Compiler le module C++, dans le compilateur, activer le venv puis se placer dans dans cd d : \ b l o c k c h a i n I A:
     \begin{lstlisting}[language=bash]
     python setup.py build_ext --inplace
     \end{lstlisting}
@@ -1742,7 +1739,13 @@ def query_ollama_api(prompt, model='llama3.2', temperature=0.7, max_tokens=800):
 \begin{figure}[h]
     \centering
     \includegraphics[width=\linewidth, height=0.8\textheight, keepaspectratio]{exeprojet/1.2.png}
-    \caption{Minage d'un bloc avec calcul du nonce et hash}
+    \caption{Minage d'un bloc avec PoW 1 avec calcul du nonce et hash (nonce faible: 0 pour le bloc 10}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\linewidth, height=0.8\textheight, keepaspectratio]{exeprojet/14.png}
+    \caption{Minage d'un bloc avec PoW 4 avec calcul du nonce et hash : plus lent car plus sécurisé (nonce élevé : 244652 pour le bloc 10)}
 \end{figure}
 
 \begin{figure}[h]
@@ -1757,18 +1760,11 @@ def query_ollama_api(prompt, model='llama3.2', temperature=0.7, max_tokens=800):
     \caption{Affichage du solde et de l'historique complet d'un portefeuille}
 \end{figure}
 
-% Exemples de sortie terminal pour les options 5 et 6
-\begin{lstlisting}[language=bash,caption={Option 5 : Enregistrer un Pair}]
-5. Enregistrer un Pair
-Adresse du pair à ajouter (ex: 192.168.1.10:5003) : 192.168.1.11:5003
-Pair ajouté avec succès !
-\end{lstlisting}
-
-\begin{lstlisting}[language=bash,caption={Option 6 : Synchroniser la Chaîne}]
-6. Synchroniser la Chaîne
-Synchronisation en cours avec les pairs...
-Chaîne mise à jour : la chaîne distante était plus longue et valide.
-\end{lstlisting}
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\linewidth, height=0.8\textheight, keepaspectratio]{exeprojet/13.png}
+    \caption{Ajout d'un pair et synchronisation de ce dernier}
+\end{figure}
 
 \begin{figure}[h]
     \centering
@@ -1804,13 +1800,13 @@ Chaîne mise à jour : la chaîne distante était plus longue et valide.
 \begin{figure}[h]
     \centering
     \includegraphics[width=\linewidth, height=0.8\textheight, keepaspectratio]{exeprojet/9.png}
-    \caption{Audit complet d'un portefeuille avec graphiques et statistiques détaillées}
+    \caption{Audit complet d'un portefeuille}
 \end{figure}
 
 \begin{figure}[h]
     \centering
     \includegraphics[width=\linewidth, height=0.8\textheight, keepaspectratio]{exeprojet/10.png}
-    \caption{Page de sécurité avec validation de chaîne et consensus entre nœuds}
+    \caption{Page de sécurité où l'on peut analyser avec l'ia pourquoi une transaction est dangereuse}
 \end{figure}
 
 % Page de téléchargement (placée avant export CSV)
