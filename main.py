@@ -23,7 +23,7 @@ from core.routes import init_routes
 # CONFIGURATION GLOBALE
 # ============================================================
 
-NODE_PORT = int(os.getenv('PORT', '5002'))
+NODE_PORT = int(os.getenv('PORT', '5003'))
 NODE_ID = f"node_{NODE_PORT}"
 ZEROTIER_NETWORK_ID = os.getenv('ZEROTIER_NETWORK_ID', '12ac4a1e71a03912')
 
