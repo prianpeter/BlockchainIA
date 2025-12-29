@@ -42,14 +42,14 @@ pip install -r requirements.txt
 Si le module `mine_module` n'est pas déjà compilé pour votre plateforme :
 
 Sur Windows:
-Ouvrir le terminal compilateur : x64 Native Tools Command Prompt for VS 2022 par exemple
-Se placer dans le venv et l'activer
-Se replacer dans \BlockchainIA
-Executer cette commande
+- Ouvrir le terminal compilateur : x64 Native Tools Command Prompt for VS 2022 par exemple
+- Se placer dans le venv et l'activer
+- Se replacer dans \BlockchainIA
+- Executer cette commande
 
 Sur Linux/Mac:
-Activer le venv
-Executer cette commande
+- Activer le venv
+- Executer cette commande
 
 ```bash
 python setup.py build_ext --inplace
