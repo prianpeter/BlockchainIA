@@ -37,9 +37,19 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-4. **Compiler le module natif C++ dans le venv (si nécessaire)**
+4. **Compiler le module natif C++**
 
 Si le module `mine_module` n'est pas déjà compilé pour votre plateforme :
+
+Sur Windows:
+Ouvrir le terminal compilateur : x64 Native Tools Command Prompt for VS 2022 par exemple
+Se placer dans le venv et l'activer
+Se replacer dans \BlockchainIA
+Executer cette commande
+
+Sur Linux/Mac:
+Activer le venv
+Executer cette commande
 
 ```bash
 python setup.py build_ext --inplace
